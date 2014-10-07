@@ -58,12 +58,12 @@ var Reader = Class.create({
 			return false;
 	},
 	next: function() {
-		var val = this.collection[this.offset];
-		if (val == '%' && this.collection[this.offset - 1] != '\\') {
+		var val = this.collection.charAt(this.offset);
+		if (val == '%' && this.collection.charAt(this.offset - 1) != '\\') {
 			var comment = '';
 			while (val != '\n') {
 				this.offset += 1;
-				val = this.collection[this.offset];
+				val = this.collection.charAt(this.offset);
 				if (val != '\n') {
 					comment += val;
 				}
@@ -71,6 +71,7 @@ var Reader = Class.create({
 			this.comments.push(comment);
 		}
 		this.offset += 1;
+		return val;
 	},
 	//TODO: correct for comments
 	back: function() {
@@ -143,7 +144,7 @@ var Lexer = Class.create({
 			if (exitChar != null && value == exitChar) {
 				break;
 			}
-			else if (value == '\\') {
+			else if (value == "\\") {
 				if (strip(text) != '') {
 					commands.push(new latex_string(strip(text)));
 					text = '';
@@ -191,7 +192,6 @@ var Lexer = Class.create({
 		
 		var hasArgs = false;
 		while (this.reader.hasNext()) {
-			var value = this.reader.next();
 			if (value == '\\') {
 				if (commandName == '') {
 					return new latex_tag('sa_newline', [], []);
