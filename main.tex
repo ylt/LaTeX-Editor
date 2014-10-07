@@ -1,0 +1,464 @@
+\documentclass{unitemplate}
+
+\addbibresource{references.bib}
+
+\DeclareBibliographyCategory{cited}
+\AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
+
+%\lstset{language=OraSQL}
+
+%\renewcommand\thepart{\arabic{part}}
+
+\usepackage{tabularx}
+
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{tabulary}
+
+ \usepackage{pdfpages}
+
+ \usepackage{microtype} % makes document more pretty ;)
+%\usepackage{tikz-uml}
+
+\author{Joseph Carter p130743, Hasan Khan p133162, Huw Pritchard p129695}
+\title{\textbf{Software Engineering Principles}\\Software Engineering Group Project Part 3}
+\date{\today}
+
+\begin{document}
+% title page ---------------------------------------------///
+	\maketitle
+	\clearpage
+	
+% table of contents page ---------------------------------///
+	\tableofcontents
+	\clearpage
+	\listoffigures
+	\listoftables
+	\thispagestyle{fancy} %tableofcontents overrides document style..
+	\clearpage
+	
+
+% ~~~ Marks ~~~
+%Research-informed Literature (5%):
+%   Marks will be awarded for the use of research in identifying suitable formats for documentation, meeting minutes etc. (5%)
+%   Knowledge and Understanding of Subject (30%)
+%   Marks will be awarded for;
+%   Correct use of models to describe system architectural (object, class and package) (10%)
+%   Correct use of models to describe behaviours resulting from object interaction (e.g. sequence diagrams) (10%)
+%   Correct use of models to describe individual object behaviour (e.g. state and activity diagrams) (10%)
+
+%Analysis (10%):
+%   Additional requirements / Use Case diagrams identified during this phase (10%)
+
+%Practical Application and Deployment (30%)
+%   Appropriate system architectural (object, class and package) (10%)
+%   Appropriate behaviours resulting from object interaction (e.g. sequence diagrams) (10%)
+%   Appropriate models of individual object behaviour (e.g. state and activity diagrams) (10%)
+
+%Skills for Professional Practice (25%)
+%   Marks will be awarded for document presentation and completeness (5%)
+%   Evidence of individual work within the group such as detailed meeting minutes indicating tasks assigned to individuals (10%)
+%   Detailed meeting minutes demonstrating collaborative work (10%)
+
+% ~~~ Task ~~~
+%Produce a design for their software product, based on the requirements analysis performed in the proceeding task. In this stage of the group project the requirements are to be used as a basis for the design of the system following object orientated design principles and utilising UML. Any additional requirements identified at this stage should be included in revised requirements documents. Any changes to the requirements models should also be documented. This design should meet the requirements and include considerations for the implementation of the system.
+
+
+
+
+
+
+	
+%\setcounter{section}{-10}
+\section{Introduction}
+An application and unit test will be created and managed using version control (specifically Git) for a podiatrist clinic. Documentation will feature details on how the project was managed and executed.
+
+\section{Scope}
+This Test Plan describes the integration and system tests that will be conducted on the prototype following integration of the subsystems and components identified in the Integration Build Plan for the Prototype. It is assumed that unit testing already provided thorough white box testing, extensive coverage of source code, and testing of all module interfaces.
+The purpose of assembling the prototype was to test Functions and features of the selected architecture. It is critical that all system and subsystem interfaces be tested as well as system performance at this early stage. Testing will be performed at several points in the life cycle as the product is constructed. 
+
+\subsection{References}
+    \begin{enumerate}
+    \item Use case diagrams
+    \item Software Requirements document
+    \item Software Development Cycle document 
+\end{enumerate}
+
+\section{Testing}
+\subsection{Features to be tested: }
+The listing below identifies those items (use cases, functional requirements and non-functional requirements) that have been identified as targets for testing. This list represents what will be tested.
+Load testing will not be considered part of this project since the user base is known and not an issue.
+
+\paragraph{Appointment}~\\
+\begin{enumerate}
+	\item Make new appointment
+	\item List appointments
+	\item View appointments for a given day + staff member
+\end{enumerate}
+\paragraph{Patient:}~\\
+\begin{enumerate}
+	\item List Patients
+	\item View Patient
+	\item Update Patients
+	\item Add patient info
+	\item Record Treatment given
+	\item Remove patient
+\end{enumerate}
+\paragraph{Equipment:}~\\
+\begin{enumerate}
+	\item View stock
+	\item Update stock info
+	\item Add equipment info
+\end{enumerate}
+\paragraph{Staff:}~\\\
+\begin{enumerate}
+	\item Add new staff member
+	\item View Staff details
+	\item Modify staff details
+	\item Remove staff member
+\end{enumerate}
+\paragraph{Login:}~\\
+\begin{enumerate}
+	\item Login
+\end{enumerate}
+
+
+\subsection{Assumptions/Pre-conditions}
+This list contains a number of possible assumptions and preconditions. Assumptions and risks are determined when the test plan is being written. In principle, preconditions are imposed upon the test project from outside. In general, these concern limits and conditions with regard to the required resources, people, budget, and time. The test team, on the other hand, determines assumptions.
+
+Factors which may affect the automated testing effort, and may increase the risk associated with the success of the test include:
+
+\begin{enumerate}
+	\item Completion of development of front-end processes.
+	\item Completion of design and construction of new processes.
+	\item Completion of modifications to the local database.
+	\item Movement or implementation of the solution to the appropriate testing or production environment.
+	\item Stability of the testing or production environment.
+	\item Load Discipline.
+	\item Maintaining recording standards and automated processes for the project.
+	\item Completion of manual testing through all applicable paths to ensure that reusable automated scripts are valid.
+    \item Test should be completed no later than the fixed deadline.
+\end{enumerate}
+
+\subsection{Risks}
+The following risks have been identified and the appropriate action identified to mitigate their impact on the project.  The impact (or severity) of the risk is based on how the project would be affected if the risk was triggered
+
+\begin{table}[h]
+	
+	\begin{tabulary}{1\textwidth}{|L|L|L|L|L|}
+		\hline
+		& \textbf{Risk} & \textbf{Impact} & \textbf{Trigger} & \textbf{Mitigation Plan}\\\hline
+		1 & Scoop Creep, as testers gets more familiar with the tool they will want more functions & High & Will delay the implantation date & Need to set priorities and the functions implemented are closely monitored\\\hline
+		2 & Changes in functionality, this may lead to neglect test already written & High & Loss of test cases/scripts & Need to export data prior to any changes and then re import after changes has been made.\\\hline
+		3 & Delivery might not be possible on time & Medium - high & Product did not get delivered on time & \\\hline
+		4  & Budget Risk, as application development might take more time and resources. & High & Wrong budget estimation & Need to make sure the estimation is right, got enough resources and tools\\\hline
+		5 & Technical risk, generally leads to failure of functionality and performance. & Very High & Continuous changing in requirements, application is complex to implement & Make sure it’s clearly states in the requirements document which tools developers going to use to implement the application\\\hline
+	\end{tabulary}
+	\label{tab:risks}
+	\caption{Risks}
+\end{table}
+
+\clearpage
+
+\subsection{Test Approach}
+The general methodology/approach for Patient record system Testing will involve the following steps:
+\begin{enumerate}
+	\item Both a minor and major upgrade will test all the critical functions at least once.
+	\item Confirm any changes is updated.
+	\item Review reports needed for Testing, update if necessary.
+	\item Review the management process, update if necessary.
+	\item Confirm the test conditions, cycles, and plans based on functional requirements are updated.
+	\item Ensure test conditions are grouped.
+	\item Confirm the interface listing worksheet is updated.  (For HE - This worksheet lists all external interfaces, which are files that are received or sent, outside of HRMS and SA.)  This should include all database links and the access granted (i.e. Read Only, Read/Write, etc).
+	\item Identify any risks that may jeopardise the schedule completion.
+\end{enumerate}
+
+For each Phase of System Testing:
+\begin{enumerate}
+	\item Execute the test condition.
+	\item Check the output against the expected results.
+	\item Evaluate and document any unexpected results.  Utilise testing incidents database.
+	\item Make sure that any required corrections are migrated and re-tested.
+	\item Make sure that final testing components (conditions, input, and expected results) are accurate, complete and documented in such a way to make them repeatable and reusable.  
+	\item Review and obtain Acknowledgement of System Test results where appropriate (i.e. new functionality).
+\end{enumerate}
+
+\subsection{Test Phases}
+There are separate phases of testing which are designated on the time-line within the overall System Test phase.  Each phase include several types of testing.  The level of testing for an upgrade is more condensed and may not be as time-consuming as for an implementation.  When possible, some of these phases may be done concurrently.  
+
+The following is a list of the test phases included in the overall System Test time-frame.  However, some of these phases are not covered in detail in this document.
+
+
+\begin{table}[h]
+	\begin{tabulary}{1\textwidth}{LL}
+	\hline
+		\textbf{Test Type} & \textbf{Focus} \\\hline
+		Unit Testing & Testing to find errors in complete functions and processes within the units.  Ensure everything has been linked together correctly. \\\hline
+		Integration Testing & Test individual software units of code to verify interaction between various software components and detect interface defects. Tests build on unit tests by combining the units of code and testing that the resulting combination functions correctly. \\\hline
+		Alpha Testing & Test among the team to confirm that your product works. Find bugs that were not found previously through other tests. The main purpose of alpha testing is to refine the software product by finding (and fixing) the bugs that were not discovered through previous tests. \\\hline
+		Beta / Pre-release Testing & Operational testing by potential and/or existing users/customers at an external site not otherwise involved with the developers, to determine whether or not a component or system satisfies the user/customer needs and fits within the business processes. \\\hline
+    \end{tabulary}
+	\caption{Test table}
+	\label{tab:test}
+\end{table}
+
+\subsection{References: }
+\begin{enumerate}
+\item Use case diagrams
+\item Software Requirements document 
+\item Software Development Cycle document
+\end{enumerate}
+
+\subsection{Unit testing}
+QTestLib is a unit software testing tool for testing Qt applications. QTestLib is the library, which includes all the methods for testing the code and the GUI Graphical User Interface) as well as benchmarking \cite{qtestlib}. QTest will be used to test each test case for the application \cite{qtestlib}. It is thought to be appropriate to use QTestLib as it comes with Qt, and is developed for Qt applications \cite{qtestlib}. QTestLib was the only unit testing software documented for specifically the Qt framework.
+
+
+%Why did we choose QtTestLib
+%
+%
+%
+% Write here please!?
+%
+%
+%
+
+
+\section{Version Control}
+Version control is a method of managing code via code versions \cite{sommerville2007software}. Each increment of code in the version control is known as a diff (difference) \cite{sommerville2007software}, in Git's case, a commit.
+
+
+%Why did we choose Git?
+%Version numbering
+%
+%
+%
+% Write here please!?
+%
+%
+%
+
+Git is a distributed version control system that manages code \cite{gitabout}.
+
+GitHub was used as the online host for the git project. Each team member pulled, committed, pushed and merged the code on the private repository which a request to Github for a student account has been provided \cite{githbprivacunt}.
+
+Some of the simple commands used for this project are:
+\begin{enumerate}
+    \item git pull \emph{repo}
+    \item git add \emph{files}
+    \item git commit -m "Message"
+    \item git stash
+    \item git merge
+    \item git branch
+    \item git checkout
+    \item git clone
+    \item git clean
+    \item git reset
+    \item git revert
+\end{enumerate}
+
+\section{Updated diagrams}
+As using Qt framework is a new experience for the team, many changes were expected.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{main.eps}
+    \caption{Class diagram: main}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{equipment.eps}
+    \caption{Class diagram: equipment}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{patient.eps}
+    \caption{Class diagram: patient}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{staff.eps}
+    \caption{Class diagram: staff}
+\end{figure}
+
+\section{Management}
+The project was managed by heavily utilising git feature branches, tasks were directly assigned to group members via chat throughout development with the bigger issues being placed on Github's issue tracker. The components to work on were chosen to be spread out so as to avoid conflicts, but these still happened due to dependencies between the various components - one such example is that tests need various UI components in place (or of the right type) in order to function. If code is functional, it is then merged into the master branch either by or with approval of the project manager. This helps reduce the merge conflicts, and if there are any makes it easier to find the best solution.
+
+We had hoped to use octopus merging, but not enough of us were working at any one time to require merging in more than one branch to master at a time.
+%will reword..
+%Each task will be divided for each team member to reduce conflicts when using version control. This also means that each task can be done in parallel, separating the entire project into 'fair' manageable work-loads. One potential concern is merge conflicts, the way we have chosen to deal with this is having the project manager responsible for the merging and assigning of tasks, throughout development we have seen multiple merge conflicts and this has dealt with it effectively.
+
+\subsection{Project Management}
+
+\subsection{Roles}
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{|l|X|} \hline
+    \textbf{Resource Name} & \textbf{Role} \\\hline
+    Joe Carter: &  Build Engineer, Manager, Developer \& Tester\\\hline
+    Huw Pritchard: & Developer\\\hline
+    Hasan Khan: & Tester\\\hline
+\end{tabularx}
+    \caption{Roles of team members}
+    \label{tab:roles}
+\end{table}
+
+\subsubsection{Joe Carter}
+\paragraph{Continuous Integration} Set up and configured a Jenkins CI server, this has been configured to detect new changes on GitHub and compile these. It has modules loaded to detect warnings + errors emitted by GCC (GNU Collection Compiler) during compilation, and has been configured to compile and run all of the tests, with a report then generated from the results. It has been split up into two jobs, one for the master branch, and then another job which will compile any branch - this allows anyone to commit and see the status of their branch before they push it into the master.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|c}
+\multicolumn{2}{c}{Lines of code}\\
+\textbf{Additions} & \textbf{Deletions} \\
+2,714 & 509
+\end{tabular}
+\caption{Joe's contribution}
+\label{tab:joecon}
+\end{table}
+
+\paragraph{Management} The main role performed was to manage the project as a whole, I orchestrated the development of myself, Huw and Hasan so that work could be merged into the master branch with minimal issues, and that the latest code was in repo to work off of. The various different styles of working made this significantly difficult. I make my commits as small as possible, this makes what I've changed as verbose as possible (although it does cause me to make more mistakes as it's less tested), Huw makes larger commits but these are quite tidy, while Hasan makes the largest of them all and makes a mess (includes files that weren't intentionally changed, etc). These styles do work against each other, in a typical software development setting - Most of the commits would have been rejected, but as a time constrained project we could simply not afford to do this.
+
+\paragraph{Software Development} My main development was to make the code between the main application and tests fit together cleanly, I written a few initial tests and cleaned up the main application in order to allow the tests to include its files without any conflict (i.e. duplicate main); The implementation of the tests were not coded to a great quality, and were introduced late but they do the job. The tests are primarily testing the user interface, and do not test on a functional level as they should; rather than feeding faked data using stubs, we have been simply making the tests query the database also in order to match up the data.
+
+\clearpage
+\subsubsection{Huw Pritchard}
+Huw's job was to write the main code for the interface and back-end of the client. Huw's committed in small quantities but with large changes. Huw and Joe communicated daily to ensure what was going on with the project and how the project was implemented. Huw had considerate power as he had some levy over the design and architecture of the project.
+
+\paragraph{As manager}
+After the group read errors in the specification, specifically towards "code behind the button" problem, the team decided to create classes which would abstractly handle the intended information, specific for each class such as Patient, Staff, etc. It was much easier to use this abstract method compared to the old "code behind the button". Why didn't the team do implement this type of structure before? Well, the project aims more towards to development rather than the implementation, and there a time was a factor of why this team went with a "code behind a button" type of architecture.
+
+As project manager, the task was set to undergo the development of the application and to ensure that most features in the specification were met. There is a slight disappointment in the development of the project, as features weren't implemented on time and on schedule. Most of the features were implemented last minute, which is not a good thing. Normally the tests would come first, the outcome of this project must come first unfortunately. A lot of project outside in the real world get stalled and get over budget, so this concludes that project do break their promises.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|c}
+\multicolumn{2}{c}{Lines of code}\\
+\textbf{Additions} & \textbf{Deletions} \\
+2,714 & 509
+\end{tabular}
+\caption{Huw's contribution}
+\label{tab:huwcon}
+\end{table}
+
+\subsubsection{Hasan Khan}
+
+\paragraph{As Tester}
+Hasan's job was to write some of the test scripts. Hasan's commit was small as he had the mostly to deal with the bugs in the test script. It was a mess but was later fixed and run on Jenkins. The initial list given my Joe for the unit (as shown in the test plan) was later implemented on QT. 
+
+Before writing the test scripts for unit testing, a test plan was written which contents the directional the test will be approach with some assumption and risks taken into consideration. It was a good guidance to follow made the testing schedule easier to maintain first doing unit then integration followed by some alpha and beat testing.
+
+For the Alpha and Beta testing number of test cases was prepared to test the functionality of the application. For this some end users was called to test the functions.
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|c}
+\multicolumn{2}{c}{Lines of code}\\
+\textbf{Additions} & \textbf{Deletions} \\
+1,275 & 211
+\end{tabular}
+\caption{Hasan's contribution}
+\label{tab:hasancon}
+\end{table}
+
+
+
+
+\subsection{Commit and merge log}
+
+\lstinputlisting{log.log}
+
+\subsection{Project Log}
+
+%ISO 8601 date format as it's tidier, http://en.wikipedia.org/wiki/ISO_8601
+\renewcommand{\arraystretch}{1.5} % arraystretch is to space out the cells on y axis.
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{r|X}
+    \textbf{Within part 2} & Prototype forms were developed, as qt creator is great for prototyping layouts \\
+    \textbf{Start} & These prototype forms from part 2 were committed to git as a whole \\
+    \textbf{2014-03-18} & Huw developed up the forms further and made them actually interactive. \\
+    \textbf{2014-03-21} & A Jenkins server has been set up, automated building for Windows and Linux has been implemented; tests are not implemented at this stage but are planned.\\
+    \textbf{2014-03-26} & The time has been spent researching methods/platforms and frameworks for testing. The design for Qt-test is unsuited, but will have to make do. A project will be made per-use case of the application, each test-case will be to utilise the functionality of that feature. An interpreted tester would be more suited as the whole application doesn't need to build, it'll fail as it's testing the individual cases. \\
+    %maybe introduce that testing has been implemented here
+    \textbf{2014-04-14} & Hasan finally installed git and qt creator \\
+    07:20PM : \textbf{2014-04-17} &  \textbf{Meeting:} We talked about what needs to be done with the assignment and project and how to do it in a short time frame. Hasan has been assigned to do more \\
+    % -- in latex is an en dash, --- is em (in case you think it's a typo)
+    \textbf{2014-04-19--20} & Hasans started writing a range of unit tests for the barely implemented parts of the project. \\
+    \textbf{2014-04-21} & \textbf{Half Meeting(} Joe and Huw\textbf{):} We discuss the role of project manager. As the assignment brief states that each person needs to take a turn, we've decided to give Huw the role for this week, with Hasan getting the weekend. An issue is created on Github (Tuesday) to announce this.
+    
+\end{tabularx}
+    \caption{Project log}
+    \label{tab:roles}
+\end{table}
+\clearpage
+
+\renewcommand{\arraystretch}{1}
+
+\include{minutes}   % Don't remove!
+
+\subsection{Gantt Chart}
+
+%Gantt Chart here
+\includepdf[pages={-},landscape,scale=0.9,pagecommand={\pagestyle{fancy}}]{plan.pdf}
+
+\section{Reflection of project}
+After using Qt's testing framework QTest; it has been decided it would be more beneficial to use another testing framework.
+
+\clearpage
+
+\section{Result}
+\subsection{testing}
+\includepdf[pages={-},pagecommand={\pagestyle{fancy}}]{testcase.pdf}
+
+\subsection{Screenshots}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{program-main.png}
+    \caption{Screenshot: main window}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{program-appointments.png}
+    \caption{Screenshot: appointments}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{program-patient.png}
+    \caption{Screenshot: patient}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{program-equipment.png}
+    \caption{Screenshot: equipment}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{program-staff.png}
+    \caption{Screenshot: staff}
+\end{figure}
+
+\clearpage
+
+\section{Appendix}
+\begin{itemize}
+    \item The project code and executables will be in the CD included with this document.
+\item Another methods of receiving the source code is by cloning https://github.com/ylt/SEP.git, if you have a GitHub account and access to this private repository with Git.
+    \item To get the application connecting to the server, a driver for Postgres (PostgreSQL) will be needed in order for the application to connect. The path (location) of the driver will be needed to be added onto the path for the run-time if needed.
+\end{itemize}
+
+
+\nocite{*}
+\subsection{References}
+	\printbibliography[heading=none,category=cited]
+\subsection{Further Reading}
+    \printbibliography[omitnumbers=true,heading=none,notcategory=cited]
+\clearpage
+	
+\end{document}

@@ -7,13 +7,26 @@ function partition(str, split) {
 	];
 }
 function strip(text) {
-	return text.replace /^\s+|\s+$/g, ""
+	return text.replace("/^\s+|\s+$/g", "");
 }
 
 //manages page itself
-var main = Class.create({
+var Main = Class.create({
 	initialize: function() {
 		//make all the hooks here
+		
+		jQuery.ajax({
+			url: "main.tex",
+			success: function(data) {
+				var r = new Reader(data);
+				var l = new Lexer(r);
+				var data = l.parse();
+				
+				
+			},
+			dataType: "text"
+		});
+		
 		
 	},
 	tick: function() {
@@ -29,7 +42,7 @@ var main = Class.create({
 	}
 });
 
-var reader = Class.create({
+var Reader = Class.create({
 	initialize: function(collection) {
 		this.offset = 0;
 		this.collection = collection;
@@ -43,7 +56,7 @@ var reader = Class.create({
 			return false;
 	},
 	next: function() {
-		var val = this.collecton[this.offset];
+		var val = this.collection[this.offset];
 		if (val == '%' && this.collection[this.offset - 1] != '\\') {
 			var comment = '';
 			while (val != '\n') {
@@ -81,7 +94,7 @@ var latex_tag = Class.create({
 	}
 });
 
-var lexer = Class.create({
+var Lexer = Class.create({
 	initialize: function(reader) {
 		this.reader = reader;
 	},
@@ -96,17 +109,46 @@ var lexer = Class.create({
 			if (exitChar != null && value == exitChar) {
 				break;
 			}
-			else {
-				if (value == '\\') {
-					if (strip(text) != '') {
-						this.commands.append(new latex_tag('sa_text', strip(text)));
-						text = '';
-					}
-					
-					command = this.readCommand();
+			else if (value == '\\') {
+				if (strip(text) != '') {
+					commands.push(new latex_tag('sa_text', strip(text)));
+					text = '';
+				}
+				
+				command = this.readCommand();
+				
+				if (command.name == "begin") {
+					console.log("wtf is this?", this.parse());
+				}
+				else if (command.name == "end") {
+					break; //finally
+				}
+				else {
+					commands.push(command);
 				}
 			}
+			else if (value == '$') {
+				commands.push(new latex_tag('sa_maths', this.parse('$')));
+			}
+			else if (value == '{') {
+				commands.push(new latex_tag('sa_block', this.parse('}')));
+			}
+			else if (value == '&') {
+				commands.push(new latex_tag('sa_separator', this.parse('$')));
+			}
+			else if (value == '\n') {
+				text += value;
+			}
+			
+			comments = this.reader.getComments();
+			if (comments.length > 0) {
+				commands.push(new latex_tag('sa_comment', comments));
+			}
 		}
+		if (text.strip() != '') {
+			commands.push(new latex_tag('sa_text', strip(text)));
+		}
+		return commands;
 	},
 	readCommand: function() {
 		var commandName = '';
@@ -136,22 +178,44 @@ var lexer = Class.create({
 			}
 		}
 		
-		if hasArgs {
+		if (hasArgs) {
 			while (this.reader.hasNext()) {
 				var value = this.reader.next();
 				if (value == '{') {
-					content.append(this.parse('}'));
+					content.push(this.parse('}'));
 				}
 				else if (value == '[') {
-					content.append(this.parseOptions());
+					content.push(this.parseOptions());
 				}
 				else {
-					reader.back();
+					this.reader.back();
 					break;
 				}
 			}
 		}
 		
 		return new latex_tag(commandName, options, context);
+	},
+	parseOptions: function() {
+		var arguments = {};
+		var current = '';
+		while (this.reader.hasNext()) {
+			var value = this.reader.next();
+			if (value == ']') {
+				break;
+			}
+			else if (value == ',') {
+				var s = partition(value, '=');
+				var key = s[0], sep = s[1], val = s[2];
+				arguments[key] = value;
+				current = '';
+			}
+			else {
+				current += value;
+			}
+		}
+		return arguments;
 	}
 });
+
+var test = new Main();
