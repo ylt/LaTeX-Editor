@@ -21,8 +21,10 @@ var Main = Class.create({
 				var r = new Reader(data);
 				var l = new Lexer(r);
 				var data = l.parse();
+				console.log(data);
 				
-				
+				var el = new latex_tag("document", data, []);
+				el.toDOM();
 			},
 			dataType: "text"
 		});
@@ -91,6 +93,38 @@ var latex_tag = Class.create({
 		this.name = name;
 		this.value = value;
 		this.options = options;
+	},
+	toDOM: function() {
+		var el = document.createElement(this.name);
+		this.options.each(function(pair) {
+			el.setAttribute(pair.value[0], pair.value[1]);
+		});
+		this.value.each(function(pair) {
+			console.log(pair.value);
+			var res = pair.value.toDOM();
+			el.appendChild(res);
+		});
+	}
+});
+
+
+var latex_string = Class.create(latex_tag, {
+	initialize: function(value) {
+		this.value = value;
+	},
+	toDOM: function() {
+		var el = document.createTextNode(this.value);
+		return el;
+	}
+})
+
+var latex_comment = Class.create(latex_tag, {
+	initialize: function(value) {
+		this.value = value;
+	},
+	toDOM: function() {
+		var el = document.createComment(this.value);
+		return el;
 	}
 });
 
@@ -111,7 +145,7 @@ var Lexer = Class.create({
 			}
 			else if (value == '\\') {
 				if (strip(text) != '') {
-					commands.push(new latex_tag('sa_text', strip(text)));
+					commands.push(new latex_string(strip(text)));
 					text = '';
 				}
 				
@@ -142,11 +176,11 @@ var Lexer = Class.create({
 			
 			comments = this.reader.getComments();
 			if (comments.length > 0) {
-				commands.push(new latex_tag('sa_comment', comments));
+				commands.push(new latex_comment(comments));
 			}
 		}
 		if (text.strip() != '') {
-			commands.push(new latex_tag('sa_text', strip(text)));
+			commands.push(new latex_string(strip(text)));
 		}
 		return commands;
 	},
