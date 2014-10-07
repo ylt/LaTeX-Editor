@@ -1,3 +1,15 @@
+function partition(str, split) {
+	position = str.indexOf(split);
+	return [
+		str.substring(0,position),
+		split,
+		str.substring(position+1)
+	];
+}
+function strip(text) {
+	return text.replace /^\s+|\s+$/g, ""
+}
+
 //manages page itself
 var main = Class.create({
 	initialize: function() {
@@ -32,7 +44,7 @@ var reader = Class.create({
 	},
 	next: function() {
 		var val = this.collecton[this.offset];
-		if (val == '%' and this.collection[this.offset - 1] != '\\') {
+		if (val == '%' && this.collection[this.offset - 1] != '\\') {
 			var comment = '';
 			while (val != '\n') {
 				this.offset += 1;
@@ -61,6 +73,85 @@ var reader = Class.create({
 	}
 });
 
+var latex_tag = Class.create({
+	initialize: function(name, value, options) {
+		this.name = name;
+		this.value = value;
+		this.options = options;
+	}
+});
+
 var lexer = Class.create({
-	
+	initialize: function(reader) {
+		this.reader = reader;
+	},
+	parse: function(exitChar) {
+		if (typeof exitChar === 'undefined')
+			exitChar = null;
+		
+		var commands = [];
+		var text = '';
+		while (this.reader.hasNext()) {
+			value = this.reader.next();
+			if (exitChar != null && value == exitChar) {
+				break;
+			}
+			else {
+				if (value == '\\') {
+					if (strip(text) != '') {
+						this.commands.append(new latex_tag('sa_text', strip(text)));
+						text = '';
+					}
+					
+					command = this.readCommand();
+				}
+			}
+		}
+	},
+	readCommand: function() {
+		var commandName = '';
+		var options = [];
+		var content = [];
+		
+		var hasArgs = false;
+		while (this.reader.hasNext()) {
+			var value = this.reader.next();
+			if (value == '\\') {
+				if (commandName == '') {
+					return new latex_tag('sa_newline', [], []);
+				}
+				this.reader.back();
+				break;
+			}
+			else if (value == ' ' || value == '\n' || value == '\r' || value == '}') {
+				this.reader.back();
+				break;
+			}
+			else if (value == '{' || value == '[') {
+				hasArgs = true;
+				this.reader.back();
+			}
+			else {
+				commandName += value;
+			}
+		}
+		
+		if hasArgs {
+			while (this.reader.hasNext()) {
+				var value = this.reader.next();
+				if (value == '{') {
+					content.append(this.parse('}'));
+				}
+				else if (value == '[') {
+					content.append(this.parseOptions());
+				}
+				else {
+					reader.back();
+					break;
+				}
+			}
+		}
+		
+		return new latex_tag(commandName, options, context);
+	}
 });
