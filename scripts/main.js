@@ -18,14 +18,12 @@ var Main = Class.create({
 		jQuery.ajax({
 			url: "main.tex",
 			success: function(data) {
-				console.log("loaded");
 				var r = new Reader(data);
 				var l = new Lexer(r);
 				var data = l.parse();
-				console.log("wut");
 				console.log(data);
 				
-				var el = new latex_tag("document", data, []);
+				var el = new latex_tag("document", [data], []);
 				var dom = el.toDOM();
 				document.body.appendChild(dom);
 			},
@@ -99,20 +97,25 @@ var latex_tag = Class.create({
 		this.options = options;
 		
 		this.body = [];
+		
 	},
 	toDOM: function() {
 		var el = document.createElement(this.name);
 		/*this.options.forEach(function(value) {
 			el.setAttribute(strip(value[0]), strip(value[1]));
 		});*/
-
+		console.log("dom", this);
 		this.value.forEach(function(value) {
-			var res = value.toDOM();
-			el.appendChild(res);
+			value.forEach(function(ivalue) {
+				var res = ivalue.toDOM();
+				el.appendChild(res);
+			});
 		});
 		this.body.forEach(function(value) {
-			var res = value.toDOM();
-			el.appendChild(res);
+			value.forEach(function(ivalue) {
+				var res = ivalue.toDOM();
+				el.appendChild(res);
+			});
 		});
 		return el;
 	}
@@ -144,7 +147,6 @@ var Lexer = Class.create({
 		this.reader = reader;
 	},
 	parse: function(exitChar) {
-		console.log("called");
 		if (typeof exitChar === "undefined")
 			exitChar = null;
 		
@@ -157,7 +159,6 @@ var Lexer = Class.create({
 			}
 			else if (value == "\\") {
 				if (text != "") {
-					console.log("pushed text");
 					commands.push(new latex_string(text));
 					text = "";
 				}
@@ -165,7 +166,9 @@ var Lexer = Class.create({
 				command = this.readCommand();
 
 				if (command.name == "begin") {
-					command.body = this.parse();
+					console.log(command);
+					//command.body = this.parse();
+					commands.push(command);
 				}
 				else if (command.name == "end") {
 					break; //finally
@@ -175,13 +178,13 @@ var Lexer = Class.create({
 				}
 			}
 			else if (value == "$") {
-				commands.push(new latex_tag("sa_maths", this.parse("$")));
+				commands.push(new latex_tag("sa_maths", this.parse("$"), {}));
 			}
 			else if (value == "{") {
-				commands.push(new latex_tag("sa_block", this.parse("}")));
+				commands.push(new latex_tag("sa_block", this.parse("}"), {}));
 			}
 			else if (value == "&") {
-				commands.push(new latex_tag("sa_separator", this.parse("$")));
+				commands.push(new latex_tag("sa_separator", this.parse("$"), {}));
 			}
 			else if (value != "\n") {
 				text += value;
@@ -195,10 +198,10 @@ var Lexer = Class.create({
 		if (text != "") {
 			commands.push(new latex_string(text));
 		}
+		console.log(commands);
 		return commands;
 	},
 	readCommand: function() {
-		console.log("read command");
 		var commandName = "";
 		var options = [];
 		var content = [];
@@ -208,7 +211,7 @@ var Lexer = Class.create({
 			var value = this.reader.next();
 			if (value == "\\") {
 				if (commandName == "") {
-					return new latex_tag("sa_newline", [], []);
+					return new latex_tag("sa_newline", [], {});
 				}
 				this.reader.back();
 				break;
@@ -241,7 +244,7 @@ var Lexer = Class.create({
 				}
 			}
 		}
-		return new latex_tag(commandName, options, content);
+		return new latex_tag(commandName, content, options);
 	},
 	parseOptions: function() {
 		var arguments = {};
