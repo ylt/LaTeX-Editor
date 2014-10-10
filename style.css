@@ -1,0 +1,29 @@
+
+section {
+display: block;
+font-size: 2em;
+margin-before: 0.67em;
+margin-after: 0.67em;
+margin-start: 0;
+margin-end: 0;
+font-weight: bold; }
+
+
+subsection {
+display: block;
+font-size: 1.5em;
+margin-before: 0.83em;
+margin-after: 0.83em;
+margin-start: 0;
+margin-end: 0;
+font-weight: bold; }
+
+
+subsubsection {
+display: block;
+font-size: 1.17em;
+margin-before: 1em;
+margin-after: 1em;
+margin-start: 0;
+margin-end: 0;
+font-weight: bold; }
