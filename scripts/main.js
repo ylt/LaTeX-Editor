@@ -21,7 +21,7 @@ var Main = Class.create({
 				var r = new Reader(data);
 				var l = new Lexer(r);
 				var data = l.parse();
-				console.log(data);
+				//console.log(data);
 				
 				var el = new latex_tag("document", [data], []);
 				var dom = el.toDOM();
@@ -93,6 +93,7 @@ var Reader = Class.create({
 var latex_tag = Class.create({
 	initialize: function(name, value, options) {
 		this.name = name;
+		this.tname = name;
 		this.value = value;
 		this.options = options;
 		
@@ -104,19 +105,21 @@ var latex_tag = Class.create({
 		/*this.options.forEach(function(value) {
 			el.setAttribute(strip(value[0]), strip(value[1]));
 		});*/
-		console.log("dom", this);
+		//console.log("dom", this);
 		this.value.forEach(function(value) {
 			value.forEach(function(ivalue) {
 				var res = ivalue.toDOM();
 				el.appendChild(res);
 			});
 		});
-		this.body.forEach(function(value) {
-			value.forEach(function(ivalue) {
-				var res = ivalue.toDOM();
-				el.appendChild(res);
+		console.log(this.body);
+		if (this.body.isArray())
+			this.body.forEach(function(value) {
+				value.forEach(function(ivalue) {
+					var res = ivalue.toDOM();
+					el.appendChild(res);
+				});
 			});
-		});
 		return el;
 	}
 });
@@ -159,18 +162,29 @@ var Lexer = Class.create({
 			}
 			else if (value == "\\") {
 				if (text != "") {
-					commands.push(new latex_string(text));
+					//commands.push(new latex_string(text));
+					var re = /\r?\n\s*\r?\n/;
+					var pars = text.split(re);
+					//console.log(pars);
+					pars.forEach(function(par, index) {
+						commands.push(new latex_string(par));
+						if (index < pars.length-1)
+							commands.push(new latex_tag("p", [], {}));
+					});
 					text = "";
 				}
 				
-				command = this.readCommand();
+				var command = this.readCommand();
 
 				if (command.name == "begin") {
-					console.log(command);
-					//command.body = this.parse();
+					//console.log(command);
+					command.body = this.parse();
 					commands.push(command);
+					console.log(command);
+
 				}
 				else if (command.name == "end") {
+					//console.log(command);
 					break; //finally
 				}
 				else {
@@ -186,7 +200,8 @@ var Lexer = Class.create({
 			else if (value == "&") {
 				commands.push(new latex_tag("sa_separator", this.parse("$"), {}));
 			}
-			else if (value != "\n") {
+			else //if (value != "\n") {
+			{
 				text += value;
 			}
 			
@@ -196,9 +211,16 @@ var Lexer = Class.create({
 			}
 		}
 		if (text != "") {
-			commands.push(new latex_string(text));
+			var re = /\r?\n\s*\r?\n/;
+			var pars = text.split(re);
+			
+			pars.forEach(function(par, index) {
+				commands.push(new latex_string(par));
+				if (index < pars.length-1)
+					commands.push(new latex_tag("p", [], {}));
+			});
 		}
-		console.log(commands);
+		//console.log(commands);
 		return commands;
 	},
 	readCommand: function() {
