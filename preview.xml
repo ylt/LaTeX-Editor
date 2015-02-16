@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet type="text/css" href="style.css"?>
+<document><documentclass>unitemplate</documentclass><p></p><addbibresource>references.bib</addbibresource><p></p><declarebibliographycategory>cited</declarebibliographycategory>
+<ateverycitekey><addtocategory>cited<thefield>entrykey</thefield></addtocategory></ateverycitekey><!--\lstset{language=OraSQL}--><!--\renewcommand\thepart{\arabic{part}}--><p></p><usepackage>tabularx</usepackage><p></p><usepackage>float</usepackage>
+<usepackage>multicol</usepackage>
+<usepackage>tabulary</usepackage><p></p> <usepackage>pdfpages</usepackage><p></p> <usepackage>microtype</usepackage><!-- makes document more pretty ;)--><!--\usepackage{tikz-uml}--> <p></p><author>Joseph Carter p130743, Hasan Khan p133162, Huw Pritchard p129695</author>
+<title><textbf>Software Engineering Principles</textbf><sa_newline></sa_newline>Software Engineering Group Project Part 3</title>
+<date><today></today></date><p></p><begin begintype="document">document<!-- title page ///--><p></p>	<maketitle></maketitle>
+	<clearpage></clearpage><!-- table of contents page ///--><p></p>	<tableofcontents></tableofcontents>
+	<clearpage></clearpage>
+	<listoffigures></listoffigures>
+	<listoftables></listoftables>
+	<thispagestyle>fancy</thispagestyle><!--tableofcontents overrides document style..--> 
+	<clearpage></clearpage><!-- ~~~ Marks ~~~--><!--Research-informed Literature (5%):--><!--   Marks will be awarded for the use of research in identifying suitable formats for documentation, meeting minutes etc. (5%)--><!--   Knowledge and Understanding of Subject (30%)--><!--   Marks will be awarded for;--><!--   Correct use of models to describe system architectural (object, class and package) (10%)--><!--   Correct use of models to describe behaviours resulting from object interaction (e.g. sequence diagrams) (10%)--><!--   Correct use of models to describe individual object behaviour (e.g. state and activity diagrams) (10%)--><!--Analysis (10%):--><!--   Additional requirements / Use Case diagrams identified during this phase (10%)--><!--Practical Application and Deployment (30%)--><!--   Appropriate system architectural (object, class and package) (10%)--><!--   Appropriate behaviours resulting from object interaction (e.g. sequence diagrams) (10%)--><!--   Appropriate models of individual object behaviour (e.g. state and activity diagrams) (10%)--><!--Skills for Professional Practice (25%)--><!--   Marks will be awarded for document presentation and completeness (5%)--><!--   Evidence of individual work within the group such as detailed meeting minutes indicating tasks assigned to individuals (10%)--><!--   Detailed meeting minutes demonstrating collaborative work (10%)--><!-- ~~~ Task ~~~--><!--Produce a design for their software product, based on the requirements analysis performed in the proceeding task. In this stage of the group project the requirements are to be used as a basis for the design of the system following object orientated design principles and utilising UML. Any additional requirements identified at this stage should be included in revised requirements documents. Any changes to the requirements models should also be documented. This design should meet the requirements and include considerations for the implementation of the system.--><!--\setcounter{section}{-10}--><p></p><section>Introduction</section>
+An application and unit test will be created and managed using version control (specifically Git) for a podiatrist clinic. Documentation will feature details on how the project was managed and executed.<p></p><section>Scope</section>
+This Test Plan describes the integration and system tests that will be conducted on the prototype following integration of the subsystems and components identified in the Integration Build Plan for the Prototype. It is assumed that unit testing already provided thorough white box testing, extensive coverage of source code, and testing of all module interfaces.<p></p>The purpose of assembling the prototype was to test Functions and features of the selected architecture. It is critical that all system and subsystem interfaces be tested as well as system performance at this early stage. Testing will be performed at several points in the life cycle as the product is constructed. <p></p><subsection>References</subsection>
+    <begin begintype="enumerate">enumerate<item>
+     Use case diagrams
+    </item><item> Software Requirements document
+    </item></begin><p></p><section>Testing</section>
+<subsection>Features to be tested: </subsection>
+The listing below identifies those items (use cases, functional requirements and non-functional requirements) that have been identified as targets for testing. This list represents what will be tested.
+Load testing will not be considered part of this project since the user base is known and not an issue.<p></p><paragraph>Appointment</paragraph>~<sa_newline></sa_newline>
+<begin begintype="enumerate">enumerate<item>
+	 Make new appointment
+	</item><item> List appointments
+	</item></begin>
+<paragraph>Patient:</paragraph>~<sa_newline></sa_newline>
+<begin begintype="enumerate">enumerate<item>
+	 List Patients
+	</item><item> View Patient
+	</item><item> Update Patients
+	</item><item> Add patient info
+	</item><item> Record Treatment given
+	</item></begin>
+<paragraph>Equipment:</paragraph>~<sa_newline></sa_newline>
+<begin begintype="enumerate">enumerate<item>
+	 View stock
+	</item><item> Update stock info
+	</item></begin>
+<paragraph>Staff:</paragraph>~<sa_newline></sa_newline>
+<begin begintype="enumerate">enumerate<item>
+	 Add new staff member
+	</item><item> View Staff details
+	</item><item> Modify staff details
+	</item></begin>
+<paragraph>Login:</paragraph>~<sa_newline></sa_newline>
+<begin begintype="enumerate">enumerate</begin><p></p><subsection>Assumptions/Pre-conditions</subsection>
+This list contains a number of possible assumptions and preconditions. Assumptions and risks are determined when the test plan is being written. In principle, preconditions are imposed upon the test project from outside. In general, these concern limits and conditions with regard to the required resources, people, budget, and time. The test team, on the other hand, determines assumptions.<p></p>Factors which may affect the automated testing effort, and may increase the risk associated with the success of the test include:<p></p><begin begintype="enumerate">enumerate<item>
+	 Completion of development of front-end processes.
+	</item><item> Completion of design and construction of new processes.
+	</item><item> Completion of modifications to the local database.
+	</item><item> Movement or implementation of the solution to the appropriate testing or production environment.
+	</item><item> Stability of the testing or production environment.
+	</item><item> Load Discipline.
+	</item><item> Maintaining recording standards and automated processes for the project.
+	</item><item> Completion of manual testing through all applicable paths to ensure that reusable automated scripts are valid.
+    </item></begin><p></p><subsection>Risks</subsection>
+The following risks have been identified and the appropriate action identified to mitigate their impact on the project.  The impact (or severity) of the risk is based on how the project would be affected if the risk was triggered<p></p><begin begintype="table">table<p></p>	<begin begintype="tabulary">tabulary1<textwidth></textwidth>|L|L|L|L|L|
+		<hline></hline><sa_separator></sa_separator>
+		</begin></begin></begin></document>

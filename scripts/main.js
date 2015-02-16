@@ -1,5 +1,7 @@
+"use strict";
+
 function partition(str, split) {
-	position = str.indexOf(split);
+	var position = str.indexOf(split);
 	return [
 		str.substring(0,position),
 		split,
@@ -21,7 +23,7 @@ var Main = Class.create({
 				var r = new Reader(data);
 				var l = new Lexer(r);
 				var data = l.parse();
-				//console.log(data);
+				console.log(data);
 				
 				var el = new latex_tag("document", [data], []);
 				var dom = el.toDOM();
@@ -101,26 +103,64 @@ var latex_tag = Class.create({
 		
 	},
 	toDOM: function() {
+		if (this.name == "")
+			return false;
+
 		var el = document.createElement(this.name);
 		/*this.options.forEach(function(value) {
 			el.setAttribute(strip(value[0]), strip(value[1]));
 		});*/
 		//console.log("dom", this);
 		this.value.forEach(function(value) {
+			if (Array.isArray(value))
 			value.forEach(function(ivalue) {
 				var res = ivalue.toDOM();
 				el.appendChild(res);
 			});
 		});
-		console.log(this.body);
-		if (this.body.isArray())
+		//console.log(this.body);
+		if (this.body !== undefined && Array.isArray(this.body))
 			this.body.forEach(function(value) {
-				value.forEach(function(ivalue) {
-					var res = ivalue.toDOM();
+				//console.log(value);
+				var res = value.toDOM();
+				if (res)
 					el.appendChild(res);
-				});
 			});
+
+
+		if (this.name == "begin") {
+			el.setAttribute("begintype", this.value[0][0].value);
+		}
 		return el;
+
+	},
+	tidy: function() {
+		if (this.value[0][0].value == "enumerate")
+		{
+			var p = this;
+			console.log(this);
+			var vals = this.body;
+			this.body = [];
+			var citem = null;
+			var current = [];
+			vals.forEach(function(value) {
+				if (value.name == "item")
+				{
+					if (citem != null)
+					{
+						citem.value[0] = current;
+						current = [];
+						p.body.push(citem);
+					}
+					citem = value;
+				}
+				else
+				{
+					current.push(value);
+				}
+			});
+			console.log(this);
+		}
 	}
 });
 
@@ -156,7 +196,7 @@ var Lexer = Class.create({
 		var commands = [];
 		var text = "";
 		while (this.reader.hasNext() === true) {
-			value = this.reader.next();
+			var value = this.reader.next();
 			if (exitChar != null && value == exitChar) {
 				break;
 			}
@@ -179,12 +219,11 @@ var Lexer = Class.create({
 				if (command.name == "begin") {
 					//console.log(command);
 					command.body = this.parse();
+					command.tidy();
 					commands.push(command);
-					console.log(command);
 
 				}
 				else if (command.name == "end") {
-					//console.log(command);
 					break; //finally
 				}
 				else {
@@ -205,7 +244,7 @@ var Lexer = Class.create({
 				text += value;
 			}
 			
-			comments = this.reader.getComments();
+			var comments = this.reader.getComments();
 			if (comments.length > 0) {
 				commands.push(new latex_comment(comments));
 			}
@@ -269,7 +308,7 @@ var Lexer = Class.create({
 		return new latex_tag(commandName, content, options);
 	},
 	parseOptions: function() {
-		var arguments = {};
+		var args = {};
 		var current = "";
 		while (this.reader.hasNext()) {
 			var value = this.reader.next();
@@ -279,14 +318,14 @@ var Lexer = Class.create({
 			else if (value == ",") {
 				var s = partition(value, "=");
 				var key = s[0], sep = s[1], val = s[2];
-				arguments[key] = value;
+				args[key] = value;
 				current = "";
 			}
 			else {
 				current += value;
 			}
 		}
-		return arguments;
+		return args;
 	}
 });
 

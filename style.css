@@ -1,40 +1,62 @@
+* {
+	display: block;
+}
+begin {
+	display: block;
+	background: rgba(0,0,0,0.2);
+}
+
 
 section {
-display: block;
-font-size: 2em;
-margin-before: 0.67em;
-margin-after: 0.67em;
-margin-start: 0;
-margin-end: 0;
-font-weight: bold; }
+	display: block;
+	font-size: 2em;
+	margin-before: 0.67em;
+	margin-after: 0.67em;
+	margin-start: 0;
+	margin-end: 0;
+	font-weight: bold;
+}
 
 
 subsection {
-display: block;
-font-size: 1.5em;
-margin-before: 0.83em;
-margin-after: 0.83em;
-margin-start: 0;
-margin-end: 0;
-font-weight: bold; }
+	display: block;
+	font-size: 1.5em;
+	margin-before: 0.83em;
+	margin-after: 0.83em;
+	margin-start: 0;
+	margin-end: 0;
+	font-weight: bold;
+}
 
 
 subsubsection {
-display: block;
-font-size: 1.17em;
-margin-before: 1em;
-margin-after: 1em;
-margin-start: 0;
-margin-end: 0;
-font-weight: bold; }
+	display: block;
+	font-size: 1.17em;
+	margin-before: 1em;
+	margin-after: 1em;
+	margin-start: 0;
+	margin-end: 0;
+	font-weight: bold;
+}
+
+paragraph {
+	font-weight: bold;
+}
+
+begin[begintype="enumerate"] {
+	 display: block;
+	list-style-type: decimal;
+	margin-before: 1em;
+	margin-after: 1em;
+	margin-start: 0;
+	margin-end: 0;
+	padding-start: 40px;
+}
 
 
-enumerate {
-display: block;
-list-style-type: disc;
-margin-before: 1em;
-margin-after: 1em;
-margin-start: 0;
-margin-end: 0;
-padding-start: 40px; }
+begin[begintype="enumerate"] item {
+	display: list-item;
+	text-align: -webkit-match-parent;
+}
+
 
