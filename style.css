@@ -4,8 +4,9 @@ body {
 	/*overflow: hidden;*/
 	background: #CCC;
 }
-body * {
-	/*display: block;*/
+
+document * {
+	display: none;
 }
 
 begin {
@@ -15,7 +16,7 @@ begin {
 begin[begintype="document"] {
 	display: block;
 	background: #FFF;
-	margin-top: 5em;
+	margin-top: 2em;
 	margin-left: 10em;
 	margin-right: 10em;
 	margin-bottom: 10em;
