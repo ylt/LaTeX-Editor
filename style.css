@@ -25,6 +25,10 @@ begin[begintype="document"] {
 	padding: 5em;
 }
 
+begin[begintype="document"] * {
+	display: block;
+}
+
 document {
 	font-family: 'Lustria', serif;
 	font-size: 12px;
