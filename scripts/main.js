@@ -357,10 +357,10 @@ var Lexer = Class.create({
 $j(function() {
 	var test = new Main();
 	test.changed_code();
-	/*$j("#input").keypress(function() {
+	$j("#input").keypress(function() {
 		test.changed_code();
 	});
 	$j("#input").keyup(function() {
 		test.changed_code();
-	});*/
+	});
 });
