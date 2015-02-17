@@ -16,26 +16,22 @@ function strip(text) {
 var Main = Class.create({
 	initialize: function() {
 		//make all the hooks here
-		
-		/*jQuery.ajax({
-			url: "main.tex",
-			success: function(data) {
-				var r = new Reader(data);
-				var l = new Lexer(r);
-				var data = l.parse();
-				console.log(data);
-				
-				var el = new latex_tag("document", [data], []);
-				var dom = el.toDOM();
-				document.body.appendChild(dom);
-			},
-			dataType: "text"
-		});*/
-			var editor = ace.edit("input");
-			editor.setTheme("ace/theme/merbivore");
-			editor.getSession().setMode("ace/mode/latex");
-			this.editor = editor;
 
+		//load up ace editor
+		var editor = ace.edit("input");
+		editor.setTheme("ace/theme/merbivore");
+		editor.getSession().setMode("ace/mode/latex");
+		this.editor = editor;
+
+
+		//make hooks, so that any change will update preview (in realtime)
+		var inst = this;
+		$j("#input").keypress(function() {
+			inst.changed_code();
+		});
+		$j("#input").keyup(function() {
+			inst.changed_code();
+		});
 		
 	},
 	tick: function() {
@@ -44,9 +40,8 @@ var Main = Class.create({
 	
 	//events
 	changed_code: function() {
-		//var data = $j("#input").text();
 		var data = this.editor.getValue();
-		//console.log(data);
+
 		var r = new Reader(data);
 		var l = new Lexer(r);
 		var data = l.parse();
@@ -126,12 +121,11 @@ var latex_tag = Class.create({
 	toDOM: function() {
 		if (this.name == "")
 			return false;
-		//console.log(this.name);
 		var el = document.createElement(this.name);
 		/*this.options.forEach(function(value) {
 			el.setAttribute(strip(value[0]), strip(value[1]));
 		});*/
-		//console.log("dom", this);
+
 		this.value.forEach(function(value) {
 			if (Array.isArray(value))
 			value.forEach(function(ivalue) {
@@ -139,7 +133,7 @@ var latex_tag = Class.create({
 				el.appendChild(res);
 			});
 		});
-		//console.log(this.body);
+
 		if (this.body !== undefined && Array.isArray(this.body))
 			this.body.forEach(function(value) {
 				//console.log(value);
@@ -159,7 +153,6 @@ var latex_tag = Class.create({
 		if (this.value[0][0].value == "enumerate")
 		{
 			var p = this;
-			//console.log(this);
 			var vals = this.body;
 			this.body = [];
 			var citem = null;
@@ -180,7 +173,7 @@ var latex_tag = Class.create({
 					current.push(value);
 				}
 			});
-			//console.log(this);
+
 		}
 	}
 });
@@ -238,7 +231,6 @@ var Lexer = Class.create({
 				var command = this.readCommand();
 
 				if (command.name == "begin") {
-					//console.log(command);
 					command.body = this.parse();
 					command.tidy();
 					commands.push(command);
@@ -285,7 +277,6 @@ var Lexer = Class.create({
 					commands.push(new latex_tag("p", [], {}));
 			});
 		}
-		//console.log(commands);
 		return commands;
 	},
 	readCommand: function() {
@@ -357,10 +348,4 @@ var Lexer = Class.create({
 $j(function() {
 	var test = new Main();
 	test.changed_code();
-	$j("#input").keypress(function() {
-		test.changed_code();
-	});
-	$j("#input").keyup(function() {
-		test.changed_code();
-	});
 });
