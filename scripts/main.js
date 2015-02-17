@@ -31,7 +31,12 @@ var Main = Class.create({
 			},
 			dataType: "text"
 		});*/
-
+		$j(function() {
+			var editor = ace.edit("input");
+			editor.setTheme("ace/theme/merbivore");
+			editor.getSession().setMode("ace/mode/javascript");
+			this.editor = editor;
+		});
 		
 	},
 	tick: function() {
@@ -40,8 +45,9 @@ var Main = Class.create({
 	
 	//events
 	changed_code: function() {
-		var data = $j("#input").val();
-		console.log(data);
+		//var data = $j("#input").text();
+		var data = this.editor.getValue();
+		//console.log(data);
 		var r = new Reader(data);
 		var l = new Lexer(r);
 		var data = l.parse();
@@ -121,7 +127,7 @@ var latex_tag = Class.create({
 	toDOM: function() {
 		if (this.name == "")
 			return false;
-		console.log(this.name);
+		//console.log(this.name);
 		var el = document.createElement(this.name);
 		/*this.options.forEach(function(value) {
 			el.setAttribute(strip(value[0]), strip(value[1]));
