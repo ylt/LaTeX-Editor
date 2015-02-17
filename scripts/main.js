@@ -33,7 +33,7 @@ var Main = Class.create({
 		});*/
 			var editor = ace.edit("input");
 			editor.setTheme("ace/theme/merbivore");
-			editor.getSession().setMode("ace/mode/javascript");
+			editor.getSession().setMode("ace/mode/latex");
 			this.editor = editor;
 
 		
