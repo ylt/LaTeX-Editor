@@ -173,7 +173,11 @@ var latex_tag = Class.create({
 					current.push(value);
 				}
 			});
-
+			//at this point, there's still likely text in the 'current' buffer
+			if (current.length > 0) {
+				citem.value[0] = current;
+				p.body.push(citem);
+			}
 		}
 	}
 });
