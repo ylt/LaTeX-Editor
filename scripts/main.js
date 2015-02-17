@@ -31,12 +31,11 @@ var Main = Class.create({
 			},
 			dataType: "text"
 		});*/
-		$j(function() {
 			var editor = ace.edit("input");
 			editor.setTheme("ace/theme/merbivore");
 			editor.getSession().setMode("ace/mode/javascript");
 			this.editor = editor;
-		});
+
 		
 	},
 	tick: function() {
@@ -358,10 +357,10 @@ var Lexer = Class.create({
 $j(function() {
 	var test = new Main();
 	test.changed_code();
-	$j("#input").keypress(function() {
+	/*$j("#input").keypress(function() {
 		test.changed_code();
 	});
 	$j("#input").keyup(function() {
 		test.changed_code();
-	});
+	});*/
 });
