@@ -1,5 +1,8 @@
-* {
-	display: block;
+body {
+	overflow: hidden;
+}
+body * {
+	display: block
 }
 begin {
 	display: block;
@@ -59,4 +62,19 @@ begin[begintype="enumerate"] item {
 	text-align: -webkit-match-parent;
 }
 
+#input {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 50%;
+	height: 100%;
+}
 
+document {
+	position: absolute;
+	left: 50vw;
+	top: 0;
+	width: 50%;
+	height: 100vh;
+	overflow: scroll;
+}

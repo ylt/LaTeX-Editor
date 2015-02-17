@@ -17,7 +17,7 @@ var Main = Class.create({
 	initialize: function() {
 		//make all the hooks here
 		
-		jQuery.ajax({
+		/*jQuery.ajax({
 			url: "main.tex",
 			success: function(data) {
 				var r = new Reader(data);
@@ -30,8 +30,8 @@ var Main = Class.create({
 				document.body.appendChild(dom);
 			},
 			dataType: "text"
-		});
-		
+		});*/
+
 		
 	},
 	tick: function() {
@@ -40,7 +40,23 @@ var Main = Class.create({
 	
 	//events
 	changed_code: function() {
+		var data = $j("#input").val();
+		console.log(data);
+		var r = new Reader(data);
+		var l = new Lexer(r);
+		var data = l.parse();
+		console.log(data);
 		
+		var el = new latex_tag("document", [data], []);
+		var dom = el.toDOM();
+
+
+		document.body.appendChild(dom);
+
+		if (this.document !== undefined)
+			document.body.removeChild(this.document);
+
+		this.document = dom;
 	},
 	changed_preview: function() {
 		
@@ -105,7 +121,7 @@ var latex_tag = Class.create({
 	toDOM: function() {
 		if (this.name == "")
 			return false;
-
+		console.log(this.name);
 		var el = document.createElement(this.name);
 		/*this.options.forEach(function(value) {
 			el.setAttribute(strip(value[0]), strip(value[1]));
@@ -138,7 +154,7 @@ var latex_tag = Class.create({
 		if (this.value[0][0].value == "enumerate")
 		{
 			var p = this;
-			console.log(this);
+			//console.log(this);
 			var vals = this.body;
 			this.body = [];
 			var citem = null;
@@ -159,7 +175,7 @@ var latex_tag = Class.create({
 					current.push(value);
 				}
 			});
-			console.log(this);
+			//console.log(this);
 		}
 	}
 });
@@ -226,6 +242,11 @@ var Lexer = Class.create({
 				else if (command.name == "end") {
 					break; //finally
 				}
+				else if (command.name == "$" || command.name == "#" || command.name == "&" ||
+					command.name  == "^" || command.name == "_" ||
+					command.name == "%" || command.name == "~") {
+					text += command.name;
+				}
 				else {
 					commands.push(command);
 				}
@@ -237,7 +258,7 @@ var Lexer = Class.create({
 				commands.push(new latex_tag("sa_block", this.parse("}"), {}));
 			}
 			else if (value == "&") {
-				commands.push(new latex_tag("sa_separator", this.parse("$"), {}));
+				commands.push(new latex_tag("sa_separator", [], {}));
 			}
 			else //if (value != "\n") {
 			{
@@ -328,5 +349,13 @@ var Lexer = Class.create({
 		return args;
 	}
 });
-
-var test = new Main();
+$j(function() {
+	var test = new Main();
+	test.changed_code();
+	$j("#input").keypress(function() {
+		test.changed_code();
+	});
+	$j("#input").keyup(function() {
+		test.changed_code();
+	});
+});
