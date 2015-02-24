@@ -121,14 +121,14 @@ var latex_tag = Class.create({
 	toDOM: function() {
 		if (this.name == "")
 			return false;
-		var el = document.createElement(this.name);
+		var el = document.createElement('ltxcmd-'+this.name);
 		/*this.options.forEach(function(value) {
 			el.setAttribute(strip(value[0]), strip(value[1]));
 		});*/
 
 		this.value.forEach(function(value) {
 			if (Array.isArray(value)) {
-				var parameter = document.createElement('value');
+				var parameter = document.createElement('ltx-value');
 				value.forEach(function(ivalue) {
 					var res = ivalue.toDOM();
 
@@ -141,7 +141,7 @@ var latex_tag = Class.create({
 		});
 
 		if (this.body !== undefined && Array.isArray(this.body)) {
-			var content = document.createElement('content');
+			var content = document.createElement('ltx-content');
 			this.body.forEach(function(value) {
 				
 				var res = value.toDOM();
@@ -234,7 +234,7 @@ var Lexer = Class.create({
 					pars.forEach(function(par, index) {
 						commands.push(new latex_string(par));
 						if (index < pars.length-1)
-							commands.push(new latex_tag("p", [], {}));
+							commands.push(new latex_tag("par", [], {}));
 					});
 					text = "";
 				}

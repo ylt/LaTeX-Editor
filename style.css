@@ -5,15 +5,11 @@ body {
 	background: #CCC;
 }
 
-document value > * {
-	display: none;
-}
-
 begin {
 	display: block;
 }
 
-begin[begintype="document"] {
+ltxcmd-begin[begintype="document"] {
 	display: block;
 	background: #FFF;
 	margin-top: 2em;
@@ -25,15 +21,20 @@ begin[begintype="document"] {
 	padding: 5em;
 }
 
-begin[begintype="document"] > * {
+ltxcmd-begin[begintype="document"] > ltx-content > * {
 	display: block;
 }
 
-begin > value {
+ltxcmd-begin > ltx-value {
 	display: none;
 }
 
-document {
+
+ltxcmd-document ltx-value > * { /* latexcmd-document is tmp hack, remove*/
+	display: none;
+}
+
+ltxcmd-document { /*same here tmp hack, remove*/
 	position: absolute;
 	left: 50%;
 	top: 0;
@@ -46,7 +47,7 @@ document {
 	background: #CCC;
 }
 
-section {
+ltxcmd-section {
 	font-size: 2em;
 	margin-before: 0.67em;
 	margin-after: 0.67em;
@@ -56,7 +57,7 @@ section {
 }
 
 
-subsection {
+ltxcmd-subsection {
 	display: block;
 	font-size: 1.5em;
 	margin-before: 0.83em;
@@ -67,7 +68,7 @@ subsection {
 }
 
 
-subsubsection {
+ltxcmd-subsubsection {
 	display: block;
 	font-size: 1.17em;
 	margin-before: 1em;
@@ -77,12 +78,18 @@ subsubsection {
 	font-weight: bold;
 }
 
-paragraph {
+ltxcmd-par {
+	display: block;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+ltxcmd-paragraph {
 	font-weight: bold;
 	margin-bottom: 10px;
 }
 
-begin[begintype="enumerate"] content {
+ltxcmd-begin[begintype="enumerate"] ltx-content {
 	display: block;
 	list-style-type: decimal;
 	margin-left: 1em;
@@ -93,7 +100,7 @@ begin[begintype="enumerate"] content {
 }
 
 
-begin[begintype="enumerate"] content item {
+ltxcmd-begin[begintype="enumerate"] > ltx-content ltxcmd-item {
 	display: list-item;
 	text-align: -webkit-match-parent;
 }
