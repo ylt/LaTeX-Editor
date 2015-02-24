@@ -119,33 +119,37 @@ var LtxTag_Begin = Class.create(LtxTag_Generic, {
 	tidy: function() { }
 });
 
-LtxTagFactory.RegisterBegin("enumerate", new Class.create(LtxTag_Begin, {
-	tidy: function() {
-		var p = this;
-		var vals = this.body;
-		this.body = [];
-		var citem = null;
-		var current = [];
-		vals.forEach(function(value) {
-			if (value.name == "item")
-			{
-				if (citem != null)
+{
+	var lstclass = new Class.create(LtxTag_Begin, {
+		tidy: function() {
+			var p = this;
+			var vals = this.body;
+			this.body = [];
+			var citem = null;
+			var current = [];
+			vals.forEach(function(value) {
+				if (value.name == "item")
 				{
-					citem.value[0] = current;
-					current = [];
-					p.body.push(citem);
+					if (citem != null)
+					{
+						citem.value[0] = current;
+						current = [];
+						p.body.push(citem);
+					}
+					citem = value;
 				}
-				citem = value;
+				else
+				{
+					current.push(value);
+				}
+			});
+			//at this point, there's still likely text in the 'current' buffer
+			if (current.length > 0) {
+				citem.value[0] = current;
+				p.body.push(citem);
 			}
-			else
-			{
-				current.push(value);
-			}
-		});
-		//at this point, there's still likely text in the 'current' buffer
-		if (current.length > 0) {
-			citem.value[0] = current;
-			p.body.push(citem);
 		}
-	}
-}));
+	});
+	LtxTagFactory.RegisterBegin("enumerate", lstclass);
+	LtxTagFactory.RegisterBegin("itemize", lstclass);
+}

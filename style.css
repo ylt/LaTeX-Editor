@@ -96,11 +96,27 @@ ltxcmd-begin[begintype="enumerate"] ltx-content {
 	margin-bottom: 1em;
 	margin-left: 0;
 	margin-right: 0;
-	padding-start: 40px;
+	padding-left: 40px;
 }
 
 
 ltxcmd-begin[begintype="enumerate"] > ltx-content ltxcmd-item {
+	display: list-item;
+	text-align: -webkit-match-parent;
+}
+
+ltxcmd-begin[begintype="itemize"] ltx-content {
+	display: block;
+	list-style-type: decimal;
+	margin-left: 1em;
+	margin-bottom: 1em;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 40px;
+}
+
+
+ltxcmd-begin[begintype="itemize"] > ltx-content ltxcmd-item {
 	display: list-item;
 	text-align: -webkit-match-parent;
 }
