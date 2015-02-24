@@ -1,3 +1,36 @@
+/* No need for an actual class here */
+var LtxTagFactory = {
+	tags: {},
+	begins: {},
+	Register: function(tagName, classRef) {
+		this.tags[tagName] = classRef;
+	},
+	RegisterBegin: function(tagName, classRef) {
+		this.begins[tagName] = classRef;
+	},
+	Construct: function(tagName, value, options) {
+		if (tagName == "begin") {
+			var name = value[0][0].value; //TODO: better way of doing this?
+			value.shift(); //remove first element
+			return this.ConstructBegin(name, value, options);
+		}
+		if (tagName in this.tags) {
+			return new this.tags[tagName](tagName, value, options);
+		}
+		else {
+			return new LtxTag_Generic(tagName, value, options);
+		}
+	},
+	ConstructBegin: function(tagName, value, options) {
+		if (tagName in this.begins) {
+			return new this.begins[tagName](tagName, value, options);
+		}
+		else {
+			return new LtxTag_Begin(tagName, value, options);
+		}
+	}
+};
+
 var LtxTag = Class.create({
 	initialize: function(name, value, options) {
 		this.name = name;
@@ -45,7 +78,6 @@ var LtxTag_Generic = Class.create(LtxTag,{
 				value.forEach(function(ivalue) {
 					var res = ivalue.toDOM();
 
-				
 					parameter.appendChild(res);
 					
 				});
@@ -53,6 +85,23 @@ var LtxTag_Generic = Class.create(LtxTag,{
 			}
 		});
 
+
+		return el;
+	},
+	tidy: function() { }
+});
+
+var LtxTag_Begin = Class.create(LtxTag_Generic, {
+	initialize: function($super, name, value, options) {
+		$super("begin", value, options); //forcing name is for compatibility with old code
+		this.beginName = name;
+	},
+	toDOM: function($super) {
+		var el = $super();
+		
+		//our CSS needs to know the tag type
+		el.setAttribute("begintype", this.beginName);
+		
 		if (this.body !== undefined && Array.isArray(this.body)) {
 			var content = document.createElement('ltx-content');
 			this.body.forEach(function(value) {
@@ -63,41 +112,40 @@ var LtxTag_Generic = Class.create(LtxTag,{
 			});
 			el.appendChild(content);
 		}
-		if (this.name == "begin") {
-			el.setAttribute("begintype", this.value[0][0].value);
-		}
-		return el;
 
+		
+		return el;
 	},
+	tidy: function() { }
+});
+
+LtxTagFactory.RegisterBegin("enumerate", new Class.create(LtxTag_Begin, {
 	tidy: function() {
-		if (this.value[0][0].value == "enumerate")
-		{
-			var p = this;
-			var vals = this.body;
-			this.body = [];
-			var citem = null;
-			var current = [];
-			vals.forEach(function(value) {
-				if (value.name == "item")
+		var p = this;
+		var vals = this.body;
+		this.body = [];
+		var citem = null;
+		var current = [];
+		vals.forEach(function(value) {
+			if (value.name == "item")
+			{
+				if (citem != null)
 				{
-					if (citem != null)
-					{
-						citem.value[0] = current;
-						current = [];
-						p.body.push(citem);
-					}
-					citem = value;
+					citem.value[0] = current;
+					current = [];
+					p.body.push(citem);
 				}
-				else
-				{
-					current.push(value);
-				}
-			});
-			//at this point, there's still likely text in the 'current' buffer
-			if (current.length > 0) {
-				citem.value[0] = current;
-				p.body.push(citem);
+				citem = value;
 			}
+			else
+			{
+				current.push(value);
+			}
+		});
+		//at this point, there's still likely text in the 'current' buffer
+		if (current.length > 0) {
+			citem.value[0] = current;
+			p.body.push(citem);
 		}
 	}
-});
+}));

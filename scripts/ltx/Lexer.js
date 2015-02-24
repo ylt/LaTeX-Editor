@@ -24,7 +24,7 @@ var Lexer = Class.create({
 					pars.forEach(function(par, index) {
 						commands.push(new LtxString(par));
 						if (index < pars.length-1)
-							commands.push(new LtxTag_Generic("par", [], {}));
+							commands.push(LtxTagFactory.Construct("par", [], {}));
 					});
 					text = "";
 				}
@@ -50,13 +50,13 @@ var Lexer = Class.create({
 				}
 			}
 			else if (value == "$") {
-				commands.push(new LtxTag_Generic("sa_maths", this.parse("$"), {}));
+				commands.push(LtxTagFactory.Construct("sa_maths", this.parse("$"), {}));
 			}
 			else if (value == "{") {
-				commands.push(new LtxTag_Generic("sa_block", this.parse("}"), {}));
+				commands.push(LtxTagFactory.Construct("sa_block", this.parse("}"), {}));
 			}
 			else if (value == "&") {
-				commands.push(new LtxTag_Generic("sa_separator", [], {}));
+				commands.push(LtxTagFactory.Construct("sa_separator", [], {}));
 			}
 			else //if (value != "\n") {
 			{
@@ -75,7 +75,7 @@ var Lexer = Class.create({
 			pars.forEach(function(par, index) {
 				commands.push(new LtxString(par));
 				if (index < pars.length-1)
-					commands.push(new LtxTag_Generic("p", [], {}));
+					commands.push(LtxTagFactory.Construct("p", [], {}));
 			});
 		}
 		return commands;
@@ -90,7 +90,7 @@ var Lexer = Class.create({
 			var value = this.reader.next();
 			if (value == "\\") {
 				if (commandName == "") {
-					return new LtxTag_Generic("sa_newline", [], {});
+					return LtxTagFactory.Construct("sa_newline", [], {});
 				}
 				this.reader.back();
 				break;
@@ -123,7 +123,7 @@ var Lexer = Class.create({
 				}
 			}
 		}
-		return new LtxTag_Generic(commandName, content, options);
+		return LtxTagFactory.Construct(commandName, content, options);
 	},
 	parseOptions: function() {
 		var args = {};
