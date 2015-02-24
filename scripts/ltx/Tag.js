@@ -190,11 +190,11 @@ var LtxTag_Begin = Class.create(LtxTag_Generic, {
 				else if (value.name == "vline") {
 					vline = true;
 				}
-				//else {
+				else {
 					var res = value.toDOM();
 					if (res)
 						cCol.appendChild(res);
-				//}
+				}
 			});
 			return el;
 		}
