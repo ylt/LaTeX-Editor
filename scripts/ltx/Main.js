@@ -49,12 +49,14 @@ var Main = Class.create({
 		
 		var el = new LtxTag_Generic("document", [data], []);
 		var dom = el.toDOM();
-
-
-		document.body.appendChild(dom);
-
+		
+		var container = document.getElementById("document");
+		container.appendChild(dom);
+		
+		dom.contentEditable=true;
+		
 		if (this.document !== undefined)
-			document.body.removeChild(this.document);
+			container.removeChild(this.document);
 
 		this.document = dom;
 	},
