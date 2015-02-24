@@ -127,19 +127,26 @@ var latex_tag = Class.create({
 		});*/
 
 		this.value.forEach(function(value) {
-			if (Array.isArray(value))
-			value.forEach(function(ivalue) {
-				var res = ivalue.toDOM();
-				el.appendChild(res);
-			});
+			if (Array.isArray(value)) {
+				var parameter = document.createElement('value');
+				value.forEach(function(ivalue) {
+					var res = ivalue.toDOM();
+
+				
+					parameter.appendChild(res);
+					
+				});
+				el.appendChild(parameter);
+			}
 		});
 
 		if (this.body !== undefined && Array.isArray(this.body))
 			this.body.forEach(function(value) {
-				//console.log(value);
+				var content = document.createElement('content');
 				var res = value.toDOM();
 				if (res)
-					el.appendChild(res);
+					content.appendChild(res);
+				el.appendChild(content);
 			});
 
 

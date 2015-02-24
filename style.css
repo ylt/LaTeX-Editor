@@ -5,7 +5,7 @@ body {
 	background: #CCC;
 }
 
-document * {
+document value * {
 	display: none;
 }
 
@@ -29,12 +29,21 @@ begin[begintype="document"] * {
 	display: block;
 }
 
+begin value {
+	display: none;
+}
+
 document {
+	position: absolute;
+	left: 50%;
+	top: 0;
+	width: 50%;
+	height: 100vh;
+	overflow: scroll;
+
 	font-family: 'Lustria', serif;
 	font-size: 12px;
 	background: #CCC;
-	
-
 }
 
 section {
@@ -73,7 +82,7 @@ paragraph {
 	margin-bottom: 10px;
 }
 
-begin[begintype="enumerate"] {
+begin[begintype="enumerate"] content {
 	display: block;
 	list-style-type: decimal;
 	margin-left: 1em;
@@ -84,7 +93,7 @@ begin[begintype="enumerate"] {
 }
 
 
-begin[begintype="enumerate"] item {
+begin[begintype="enumerate"] content item {
 	display: list-item;
 	text-align: -webkit-match-parent;
 }
@@ -97,11 +106,3 @@ begin[begintype="enumerate"] item {
 	height: 100%;
 }
 
-document {
-	position: absolute;
-	left: 50vw;
-	top: 0;
-	width: 50%;
-	height: 100vh;
-	overflow: scroll;
-}
