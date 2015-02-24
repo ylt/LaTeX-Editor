@@ -5,7 +5,7 @@ body {
 	background: #CCC;
 }
 
-document value * {
+document value > * {
 	display: none;
 }
 
@@ -25,11 +25,11 @@ begin[begintype="document"] {
 	padding: 5em;
 }
 
-begin[begintype="document"] * {
+begin[begintype="document"] > * {
 	display: block;
 }
 
-begin value {
+begin > value {
 	display: none;
 }
 

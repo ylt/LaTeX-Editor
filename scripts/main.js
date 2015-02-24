@@ -140,16 +140,16 @@ var latex_tag = Class.create({
 			}
 		});
 
-		if (this.body !== undefined && Array.isArray(this.body))
+		if (this.body !== undefined && Array.isArray(this.body)) {
+			var content = document.createElement('content');
 			this.body.forEach(function(value) {
-				var content = document.createElement('content');
+				
 				var res = value.toDOM();
 				if (res)
 					content.appendChild(res);
-				el.appendChild(content);
 			});
-
-
+			el.appendChild(content);
+		}
 		if (this.name == "begin") {
 			el.setAttribute("begintype", this.value[0][0].value);
 		}
