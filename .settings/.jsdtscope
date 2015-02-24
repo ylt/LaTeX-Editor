@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="kitchen-sink/|kitchen-sink/docs/" kind="src" path="ace-builds/demo"/>
+	<classpathentry excluding="docs/" kind="src" path="ace-builds/demo/kitchen-sink"/>
+	<classpathentry kind="src" path="ace-builds/demo/kitchen-sink/docs"/>
+	<classpathentry excluding="snippets/" kind="src" path="ace-builds/src"/>
+	<classpathentry excluding="snippets/" kind="src" path="ace-builds/src-min"/>
+	<classpathentry excluding="snippets/" kind="src" path="ace-builds/src-min-noconflict"/>
+	<classpathentry kind="src" path="ace-builds/src-min-noconflict/snippets"/>
+	<classpathentry kind="src" path="ace-builds/src-min/snippets"/>
+	<classpathentry excluding="snippets/" kind="src" path="ace-builds/src-noconflict"/>
+	<classpathentry kind="src" path="ace-builds/src-noconflict/snippets"/>
+	<classpathentry kind="src" path="ace-builds/src/snippets"/>
+	<classpathentry kind="src" path="ace-builds/textarea/src"/>
+	<classpathentry excluding="ltx/" kind="src" path="scripts"/>
+	<classpathentry kind="src" path="scripts/ltx"/>
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path=""/>
+</classpath>
