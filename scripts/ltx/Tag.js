@@ -10,6 +10,25 @@ var LtxTag = Class.create({
 	}
 });
 
+var LtxString = Class.create(LtxTag, {
+	initialize: function(value) {
+		this.value = value;
+	},
+	toDOM: function() {
+		var el = document.createTextNode(this.value);
+		return el;
+	}
+})
+
+var LtxComment = Class.create(LtxTag, {
+	initialize: function(value) {
+		this.value = value;
+	},
+	toDOM: function() {
+		var el = document.createComment(this.value);
+		return el;
+	}
+});
 
 var LtxTag_Generic = Class.create(LtxTag,{
 	toDOM: function() {
@@ -80,25 +99,5 @@ var LtxTag_Generic = Class.create(LtxTag,{
 				p.body.push(citem);
 			}
 		}
-	}
-});
-
-var LtxString = Class.create(LtxTag, {
-	initialize: function(value) {
-		this.value = value;
-	},
-	toDOM: function() {
-		var el = document.createTextNode(this.value);
-		return el;
-	}
-})
-
-var LtxComment = Class.create(LtxTag, {
-	initialize: function(value) {
-		this.value = value;
-	},
-	toDOM: function() {
-		var el = document.createComment(this.value);
-		return el;
 	}
 });
