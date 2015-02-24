@@ -89,6 +89,10 @@ ltxcmd-paragraph {
 	margin-bottom: 10px;
 }
 
+ltxcmd-textbf {
+	font-weight: bold;
+}
+
 ltxcmd-begin[begintype="enumerate"] ltx-content {
 	display: block;
 	list-style-type: decimal;
@@ -129,3 +133,30 @@ ltxcmd-begin[begintype="itemize"] > ltx-content ltxcmd-item {
 	height: 100%;
 }
 
+ltxcmd-tabular {
+	display: table;
+	border-collapse: separate;
+	border-spacing: 2px;
+	border-color: gray;
+}
+
+ltxcmd-tabular > ltx-tab-row {
+	display: table-row;
+	vertical-align: inherit;
+	border-color: inherit;
+	border-top: 2px solid black;
+}
+
+ltxcmd-tabular ltx-tab-row[hline="true"] > ltx-tab-col {
+	border-top: 1px solid black;
+}
+
+ltxcmd-tabular ltx-tab-row ltx-tab-col[vline="true"] {
+	border-left: 1px solid black;
+}
+
+
+ltxcmd-tabular > ltx-tab-row > ltx-tab-col {
+	display: table-cell;
+	vertical-align: inherit;
+}

@@ -153,3 +153,54 @@ var LtxTag_Begin = Class.create(LtxTag_Generic, {
 	LtxTagFactory.RegisterBegin("enumerate", lstclass);
 	LtxTagFactory.RegisterBegin("itemize", lstclass);
 }
+
+{
+	var tableclass = new Class.create(LtxTag_Begin, {
+		toDOM: function() {
+			var el = document.createElement('ltxcmd-tabular');
+			var cRow = document.createElement('ltx-tab-row');
+			var cCol = document.createElement('ltx-tab-col');
+			var hline = false;
+			var vline = false;
+			console.log(this.body);
+			this.body.forEach(function(value) {
+				if (value.name == "sa_separator") {
+					cCol.setAttribute("vline", vline);
+					cRow.appendChild(cCol);
+					
+					cCol = document.createElement('ltx-tab-col');
+				}
+				else if (value.name == "sa_newline") {
+					cCol.setAttribute("vline", vline);
+					cRow.appendChild(cCol);
+					
+					cRow.setAttribute("hline", hline);
+					el.appendChild(cRow);
+					
+					cCol = document.createElement('ltx-tab-col');
+					cRow = document.createElement('ltx-tab-row');
+					
+					
+					hline = false;
+					vline = false;
+				}
+				else if (value.name == "hline") {
+					hline = true;
+				}
+				else if (value.name == "vline") {
+					vline = true;
+				}
+				//else {
+					var res = value.toDOM();
+					if (res)
+						cCol.appendChild(res);
+				//}
+			});
+			return el;
+		}
+	});
+	
+	LtxTagFactory.RegisterBegin("tabular", tableclass);
+	LtxTagFactory.RegisterBegin("tabularx", tableclass);
+	LtxTagFactory.RegisterBegin("tabulary", tableclass);
+}

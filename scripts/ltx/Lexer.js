@@ -10,12 +10,9 @@ var Lexer = Class.create({
 		
 		var commands = [];
 		var text = "";
-		while (this.reader.hasNext() === true) {
-			var value = this.reader.next();
-			if (exitChar != null && value == exitChar) {
-				break;
-			}
-			else if (value == "\\") {
+		
+		var doText = function() {
+			if (text != "") {
 				if (text != "") {
 					//commands.push(new latex_string(text));
 					var re = /\r?\n\s*\r?\n/;
@@ -28,34 +25,50 @@ var Lexer = Class.create({
 					});
 					text = "";
 				}
-				
-				var command = this.readCommand();
-
-				if (command.name == "begin") {
-					command.body = this.parse();
-					command.tidy();
-					commands.push(command);
-
-				}
-				else if (command.name == "end") {
-					break; //finally
-				}
-				else if (command.name == "$" || command.name == "#" || command.name == "&" ||
-					command.name  == "^" || command.name == "_" ||
-					command.name == "%" || command.name == "~") {
-					text += command.name;
+			}
+		};
+		
+		while (this.reader.hasNext() === true) {
+			var value = this.reader.next();
+			if (exitChar != null && value == exitChar) {
+				break;
+			}
+			else if (value == "\\") {
+				var nchar = this.reader.peek();
+				if (nchar == "$" || nchar == "#" || nchar == "&" ||
+						nchar  == "^" || nchar == "_" ||
+						nchar == "%" || nchar == "~") {
+					text += nchar;
 				}
 				else {
-					commands.push(command);
+					doText();
+					
+					var command = this.readCommand();
+	
+					if (command.name == "begin") {
+						command.body = this.parse();
+						command.tidy();
+						commands.push(command);
+	
+					}
+					else if (command.name == "end") {
+						break; //finally
+					}
+					else {
+						commands.push(command);
+					}
 				}
 			}
 			else if (value == "$") {
+				doText();
 				commands.push(LtxTagFactory.Construct("sa_maths", this.parse("$"), {}));
 			}
 			else if (value == "{") {
+				doText();
 				commands.push(LtxTagFactory.Construct("sa_block", this.parse("}"), {}));
 			}
 			else if (value == "&") {
+				doText();
 				commands.push(LtxTagFactory.Construct("sa_separator", [], {}));
 			}
 			else //if (value != "\n") {
