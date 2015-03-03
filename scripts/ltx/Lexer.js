@@ -19,7 +19,7 @@ var Lexer = Class.create({
 					var pars = text.split(re);
 					//console.log(pars);
 					pars.forEach(function(par, index) {
-						commands.push(new LtxString(par));
+						commands.push(new LtxString(strip(par)));
 						if (index < pars.length-1)
 							commands.push(LtxTagFactory.Construct("par", [], {}));
 					});

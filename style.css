@@ -34,7 +34,7 @@ ltxcmd-document ltx-value > * { /* latexcmd-document is tmp hack, remove*/
 	display: none;
 }
 
-ltxcmd-document { /*same here tmp hack, remove*/
+#document { /*same here tmp hack, remove*/
 	position: absolute;
 	left: 50%;
 	top: 0;

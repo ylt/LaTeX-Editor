@@ -9,7 +9,7 @@ function partition(str, split) {
 	];
 }
 function strip(text) {
-	return text.replace(/^\s+|\s+$/g, "");
+	return text.replace(/^[\r\n\s]+|[\r\n\s]+$/gm, "");
 }
 
 //manages page itself
@@ -33,6 +33,10 @@ var Main = Class.create({
 			inst.changed_code();
 		});
 		
+		$j("#convert").click(function() {
+			inst.changed_preview();
+		});
+		
 	},
 	tick: function() {
 		//unused for now
@@ -50,7 +54,7 @@ var Main = Class.create({
 		var el = new LtxTag_Generic("document", [data], []);
 		var dom = el.toDOM();
 		
-		var container = document.getElementById("document");
+		var container = document.getElementById("documenteditor");
 		container.appendChild(dom);
 		
 		dom.contentEditable=true;
@@ -61,7 +65,8 @@ var Main = Class.create({
 		this.document = dom;
 	},
 	changed_preview: function() {
-		
+		var code = new DomToLtx().parse($j('ltxcmd-document'));
+		this.editor.setValue(code);
 	}
 });
 
