@@ -1,3 +1,5 @@
+"use strict";
+
 var DomToLtx = Class.create({
 	initialize: function() {
 		
@@ -14,10 +16,6 @@ var DomToLtx = Class.create({
 		});
 		
 		if (tag == "begin") {
-			//glitch: ltx->dom discards values, partial temp fix 
-			var begintype = node.attr("begintype");
-			code += "{"+begintype+"}\n";
-			
 			//we've got the content also, and the \end tag
 			
 			var val = $j(node).children("ltx-content")[0];

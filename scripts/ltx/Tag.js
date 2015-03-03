@@ -11,7 +11,7 @@ var LtxTagFactory = {
 	Construct: function(tagName, value, options) {
 		if (tagName == "begin") {
 			var name = value[0][0].value; //TODO: better way of doing this?
-			value.shift(); //remove first element
+			//value.shift(); //remove first element
 			return this.ConstructBegin(name, value, options);
 		}
 		if (tagName in this.tags) {
@@ -71,7 +71,6 @@ var LtxTag_Generic = Class.create(LtxTag,{
 		/*this.options.forEach(function(value) {
 			el.setAttribute(strip(value[0]), strip(value[1]));
 		});*/
-
 		this.value.forEach(function(value) {
 			if (Array.isArray(value)) {
 				var parameter = document.createElement('ltx-value');
