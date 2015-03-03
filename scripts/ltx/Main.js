@@ -65,7 +65,7 @@ var Main = Class.create({
 		this.document = dom;
 	},
 	changed_preview: function() {
-		var code = new DomToLtx().parse($j('ltxcmd-document'));
+		var code = new DomToLtx().parseChildren($j('ltxcmd-document ltx-value')[0]);
 		this.editor.setValue(code);
 	}
 });

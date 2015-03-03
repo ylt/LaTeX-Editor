@@ -3,6 +3,8 @@
 body {
 	/*overflow: hidden;*/
 	background: #CCC;
+	height: 100%;
+	width: 100%;
 }
 
 begin {
@@ -39,12 +41,29 @@ ltxcmd-document ltx-value > * { /* latexcmd-document is tmp hack, remove*/
 	left: 50%;
 	top: 0;
 	width: 50%;
-	height: 100vh;
-	overflow: scroll;
+	height: 100%;
+	
 
 	font-family: 'Lustria', serif;
 	font-size: 12px;
 	background: #CCC;
+}
+
+#documenteditor {
+	padding-top: 50px;
+	overflow: scroll;
+	height: 100%;
+	box-sizing: border-box
+}
+
+#document-controls {
+	position: absolute;
+	left: 50%;
+	top: 0;
+	width: 50%;
+	
+	height: 50px;
+	background: rgb(100,100,100);
 }
 
 ltxcmd-section {
