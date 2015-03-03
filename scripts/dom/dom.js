@@ -12,17 +12,23 @@ var DomToLtx = Class.create({
 		values.each(function(index, val) {
 			code += "{";
 			code += dthis.parseChildren(val);
-			code += "}\n";
+			code += "}";
 		});
+		if (values.length > 0)
+			code += "\n";
 		
 		if (tag == "begin") {
+			//glitch: ltx->dom discards values, partial temp fix 
+			var begintype = node.attr("begintype");
+			//code += "{"+begintype+"}\n";
+			code = '\n'+code;
 			//we've got the content also, and the \end tag
 			
 			var val = $j(node).children("ltx-content")[0];
 
-			code += this.parseChildren(val);
+			code += this.indent(this.parseChildren(val));
 			
-			code += "\\end{"+begintype+"}";
+			code += "\\end{"+begintype+"}\n";
 		}
 		
 		
@@ -51,18 +57,25 @@ var DomToLtx = Class.create({
 			
 			if (tag == "par") {
 				code = "\n\n";
-				console.log("paragraph");
 			}
 			else if (tag == "sa_newline") {
 				code = "\\\\";
 			}
 			else {
 				content = $j(content);
-				code = this.parse(content)
+				code = this.parse(content);
 			}
 			
 		}
 		return code;
+	},
+	indent: function(text) {
+		var parts = text.split("\n");
+		for(var i = 0; i < parts.length; i++) {
+			if (parts[i] != "")
+				parts[i] = "  "+parts[i];
+		}
+		return parts.join("\n");
 	}
 	
 });

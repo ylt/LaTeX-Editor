@@ -12,6 +12,10 @@ function strip(text) {
 	return text.replace(/^[\r\n\s]+|[\r\n\s]+$/gm, "");
 }
 
+function rstrip(text) {
+	return text.replace(/[\r\n\s]+$/gm, "");
+}
+
 //manages page itself
 var Main = Class.create({
 	initialize: function() {
@@ -21,6 +25,7 @@ var Main = Class.create({
 		var editor = ace.edit("input");
 		editor.setTheme("ace/theme/merbivore");
 		editor.getSession().setMode("ace/mode/latex");
+		editor.getSession().setUseWrapMode(true);
 		this.editor = editor;
 
 

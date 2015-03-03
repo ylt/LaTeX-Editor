@@ -24,7 +24,7 @@ var Reader = Class.create({
 					comment += val;
 				}
 			}
-			this.comments.push(strip(comment));
+			this.comments.push(rstrip(comment));
 		}
 		this.offset += 1;
 		return val;
