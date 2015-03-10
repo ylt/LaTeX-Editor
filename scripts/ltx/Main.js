@@ -109,6 +109,52 @@ var Main = Class.create({
 			//}
 		});
 		
+		$j("#addcolumn").click(function() {
+			var sel = window.getSelection();
+			var anchor = sel.anchorNode;
+			
+			//find current column
+			var current = anchor;
+			while(current.nodeType != 1 || current.tagName != 'LTX-TAB-COL') {
+				current = current.parentElement;
+				if (current == null) {
+					alert("missing row");
+					return;
+				}
+			}
+			
+			var columnId = 0;
+			var temp = current;
+			while (temp != null) {
+				temp = temp.previousSibling;
+				columnId ++;
+			}
+			
+			console.log(columnId);
+			
+			var table = current.parentElement.parentElement;
+			
+			var rows = table.childNodes;
+			for (var i = 0; i < rows.length; i++) {
+				var row = rows[i];
+				var columns = row.childNodes;
+				
+				var column = null;
+				if (columnId < columns.length) {
+					for (var j = 0; j < columns.length; j++) {
+						column = columns[j];
+						if (j == columnId)
+							break;
+					}
+				}
+				
+				var newcol = document.createElement('ltx-tab-col');
+				newcol.innerHTML = '#';
+				
+				row.insertBefore(newcol, column);
+			}
+		});
+		
 		$j('#toggleborder').click(function(){
 			var sel = window.getSelection();
 			var anchor = sel.anchorNode;
