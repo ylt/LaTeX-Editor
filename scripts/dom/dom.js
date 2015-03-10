@@ -9,28 +9,56 @@ var DomToLtx = Class.create({
 		var code = "\\"+tag;
 		var values = $j(node).children("ltx-value");
 		var dthis = this;
-		values.each(function(index, val) {
-			code += "{";
-			code += dthis.parseChildren(val);
-			code += "}";
-		});
-		if (values.length > 0)
-			code += "\n";
 		
-		if (tag == "begin") {
-			//glitch: ltx->dom discards values, partial temp fix 
-			var begintype = node.attr("begintype");
-			//code += "{"+begintype+"}\n";
-			code = '\n'+code;
-			//we've got the content also, and the \end tag
-			
-			var val = $j(node).children("ltx-content")[0];
-
-			code += this.indent(this.parseChildren(val));
-			
-			code += "\\end{"+begintype+"}\n";
+		if (tag == "item") {
+			code += ' ' + dthis.parseChildren(values[0]) + "\n";
 		}
-		
+		else if (tag == "tabular")
+		{
+			code = "\\begin{tabular}\n";
+			
+			$j(node).children().each(function(irow, row) {
+				var rchildren =$j(row).children();
+				var rowlen = rchildren.length;
+				rchildren.each(function(icolumn, column) {
+					code += dthis.parseChildren(column);
+					if (icolumn < rowlen-1)
+						code += "&";
+				});
+				
+				code += "\\\\";
+				if (row.getAttribute("hline") == "true")
+					code += "\\hline";
+				code += "\n";
+			});
+			
+			
+			code += "\\end{tabular}\n";
+			
+		}
+		else {
+			values.each(function(index, val) {
+				code += "{";
+				code += dthis.parseChildren(val);
+				code += "}";
+			});
+			if (values.length > 0)
+				code += "\n";
+			
+			if (tag == "begin") {
+				//glitch: ltx->dom discards values, partial temp fix 
+				var begintype = node.attr("begintype");
+				//code += "{"+begintype+"}\n";
+				code = '\n'+code;
+				//we've got the content also, and the \end tag
+				
+				var val = $j(node).children("ltx-content")[0];
+	
+				code += this.indent(this.parseChildren(val));
+				
+				code += "\\end{"+begintype+"}\n";
+			}
+		}
 		
 		return code;
 	},
