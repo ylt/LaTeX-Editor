@@ -75,6 +75,36 @@ var Main = Class.create({
 			console.log(range);
 		});
 		
+		$j("#addrow").click(function() {
+			var sel = window.getSelection();
+			var anchor = sel.anchorNode;
+			
+			//find current row
+			var current = anchor;
+			while(current.nodeType != 1 || current.tagName != 'LTX-TAB-ROW') {
+				current = current.parentElement;
+				if (current == 'undefined') {
+					alert("missing row");
+					return;
+				}
+			}
+			console.log(current);
+			var table = current.parentElement;
+			var row = document.createElement('ltx-tab-row');
+			for (var i = 0; i < current.childNodes.length; i++) {
+				var col = document.createElement('ltx-tab-col');
+				col.innerHTML = "#";
+				row.appendChild(col);
+			}
+			console.log(row);
+			//if (current.nextSibling) {
+				table.insertBefore(row, current.nextSibling);
+			//}
+			//else {
+			//	table.appendChild(row);
+			//}
+		});
+		
 	},
 	tick: function() {
 		//unused for now
