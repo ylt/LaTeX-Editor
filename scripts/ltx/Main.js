@@ -83,7 +83,7 @@ var Main = Class.create({
 			var current = anchor;
 			while(current.nodeType != 1 || current.tagName != 'LTX-TAB-ROW') {
 				current = current.parentElement;
-				if (current == 'undefined') {
+				if (current == null) {
 					alert("missing row");
 					return;
 				}
@@ -96,13 +96,38 @@ var Main = Class.create({
 				col.innerHTML = "#";
 				row.appendChild(col);
 			}
-			console.log(row);
+			
+			//clone border
+			row.setAttribute('hline', current.getAttribute("hline"));
+			
+			
 			//if (current.nextSibling) {
 				table.insertBefore(row, current.nextSibling);
 			//}
 			//else {
 			//	table.appendChild(row);
 			//}
+		});
+		
+		$j('#toggleborder').click(function(){
+			var sel = window.getSelection();
+			var anchor = sel.anchorNode;
+			
+			//find current row
+			var current = anchor;
+			while(current.nodeType != 1 || current.tagName != 'LTX-TAB-ROW') {
+				current = current.parentElement;
+				if (current == null) {
+					alert("missing row");
+					return;
+				}
+			}
+			
+			var hline = current.getAttribute('hline');
+			if (hline == "true")
+				current.setAttribute('hline', 'false');
+			else
+				current.setAttribute('hline', 'true');
 		});
 		
 	},
