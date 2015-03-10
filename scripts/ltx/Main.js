@@ -42,6 +42,39 @@ var Main = Class.create({
 			inst.changed_preview();
 		});
 		
+		$j("#bold").click(function() {
+			var sel = window.getSelection();
+			var range = sel.getRangeAt(0).cloneRange();
+			
+			range.surroundContents(document.createElement('ltx-value'));
+			range.surroundContents(document.createElement('ltxcmd-textbf'));
+			
+			sel.removeAllRanges();
+            sel.addRange(range);
+			
+			//document.createElement('ltxcmd-textbf');
+			//document.createElement('ltx-value');
+			
+		});
+		
+		$j("#unbold").click(function() {
+			var sel = window.getSelection();
+			var anchor = sel.anchorNode;
+			var range = sel.getRangeAt(0).cloneContents();
+			console.log(range);
+			var a = range.querySelectorAll('ltxcmd-textbf');
+			console.log(a);
+			for (var i = 0; i < a.length; i++) {
+				var tag = a[i];
+				var parent = tag.parentNode;
+				parent.insertBefore(tag.children[0], tag);
+				parent.removeChild(tag);
+			};
+			
+			anchor.parentElement.appendChild(range);
+			console.log(range);
+		});
+		
 	},
 	tick: function() {
 		//unused for now
