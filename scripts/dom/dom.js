@@ -81,17 +81,35 @@ var DomToLtx = Class.create({
 			code = "% "+content.nodeValue+"\n";
 		}
 		else if (content.nodeType == 1){
-			var tag = content.tagName.substring(7).toLowerCase();
+			if (content.tagName.substring(0,7) == "LTXCMD-") {
+				var tag = content.tagName.substring(7).toLowerCase();
 			
-			if (tag == "par") {
-				code = "\n\n";
-			}
-			else if (tag == "sa_newline") {
-				code = "\\\\";
+				if (tag == "par") {
+					code = "\n\n";
+				}
+				else if (tag == "sa_newline") {
+					code = "\\\\";
+				}
+				else {
+					content = $j(content);
+					code = this.parse(content);
+				}
 			}
 			else {
-				content = $j(content);
-				code = this.parse(content);
+				if (content.tagName == "BR") {
+					if (content.previousSibling.tagName == "BR") {
+						code = ""; //will have already been handled
+					}
+					else if (content.nextSibling.tagName == "BR") {
+						code = "\n\n";
+					}
+					else {
+						code = "\\\\";
+					}
+				}
+				else {
+					code = "";
+				}
 			}
 			
 		}

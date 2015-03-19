@@ -219,8 +219,12 @@ var Main = Class.create({
 		this.document = dom;
 	},
 	changed_preview: function() {
+		var pos = this.editor.selection.getCursor();
+
 		var code = new DomToLtx().parseChildren($j('ltxcmd-document ltx-value')[0]);
 		this.editor.setValue(code);
+		
+		this.editor.selection.moveCursorToPosition(pos);
 	}
 });
 
