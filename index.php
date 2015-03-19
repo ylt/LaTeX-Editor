@@ -23,29 +23,11 @@
 	
 	
 <div id="input">
-\documentclass{unitemplate}
+\documentclass{article}
 
 \addbibresource{references.bib}
 
-\DeclareBibliographyCategory{cited}
-\AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
-
-%\lstset{language=OraSQL}
-
-%\renewcommand\thepart{\arabic{part}}
-
-\usepackage{tabularx}
-
-\usepackage{float}
-\usepackage{multicol}
-\usepackage{tabulary}
-
- \usepackage{pdfpages}
-
- \usepackage{microtype} % makes document more pretty ;)
-%\usepackage{tikz-uml}
-
-\author{Joseph Carter p130743, Hasan Khan p133162, Huw Pritchard p129695}
+\author{<?=$_GET["userToken"]?>}
 \title{\textbf{Software Engineering Principles}\\Software Engineering Group Project Part 3}
 \date{\today}
 
@@ -59,7 +41,6 @@
 	\clearpage
 	\listoffigures
 	\listoftables
-	\thispagestyle{fancy} %tableofcontents overrides document style..
 	\clearpage
 	
 
