@@ -26,6 +26,7 @@ var Main = Class.create({
 		editor.setTheme("ace/theme/merbivore");
 		editor.getSession().setMode("ace/mode/latex");
 		editor.getSession().setUseWrapMode(true);
+		editor.$blockScrolling = Infinity;
 		this.editor = editor;
 
 
@@ -38,6 +39,14 @@ var Main = Class.create({
 			inst.changed_code();
 		});
 		
+		$j("#document").keypress(function() {
+			inst.changed_preview();
+			console.log("keypress");
+		});
+		$j("#document").keyup(function() {
+			inst.changed_preview();
+		});
+
 		$j("#convert").click(function() {
 			inst.changed_preview();
 		});
@@ -54,6 +63,7 @@ var Main = Class.create({
 			
 			//document.createElement('ltxcmd-textbf');
 			//document.createElement('ltx-value');
+			this.changed_preview();
 			
 		});
 		
@@ -73,6 +83,7 @@ var Main = Class.create({
 			
 			anchor.parentElement.appendChild(range);
 			console.log(range);
+			this.changed_preview();
 		});
 		
 		$j("#addrow").click(function() {
@@ -107,6 +118,7 @@ var Main = Class.create({
 			//else {
 			//	table.appendChild(row);
 			//}
+			this.changed_preview();
 		});
 		
 		$j("#addcolumn").click(function() {
@@ -153,6 +165,7 @@ var Main = Class.create({
 				
 				row.insertBefore(newcol, column);
 			}
+			this.changed_preview();
 		});
 		
 		$j('#toggleborder').click(function(){
@@ -174,6 +187,8 @@ var Main = Class.create({
 				current.setAttribute('hline', 'false');
 			else
 				current.setAttribute('hline', 'true');
+
+			this.changed_preview();
 		});
 		
 	},
