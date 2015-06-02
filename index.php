@@ -28,7 +28,7 @@
 \addbibresource{references.bib}
 
 \author{<?=$_GET["userToken"]?>}
-\title{\textbf{Software Engineering Principles}\\Software Engineering Group Project Part 3}
+\title{Document title here}
 \date{\today}
 
 \begin{document}
@@ -44,7 +44,7 @@
 	\clearpage
 	
 
-Placeholder text, if you've got an existing document, please wait
+Some Example Text Here :D
 	
 \end{document}
 </div>
@@ -56,6 +56,7 @@ Placeholder text, if you've got an existing document, please wait
 <button id="bold">bold</button>
 <button id="unbold">unbold</button><br/>
 Table: 
+<button id="addtable">InsertTable</button>
 <button id="addrow">Insert Row</button>
 <button id="addcolumn">Insert Column</button>
 <button id="toggleborder">Toggle Border</button>

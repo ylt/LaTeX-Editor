@@ -16,6 +16,20 @@ function rstrip(text) {
 	return text.replace(/[\r\n\s]+$/gm, "");
 }
 
+function getUrlParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
+}     
+
 //manages page itself
 var Main = Class.create({
 	initialize: function() {
@@ -63,7 +77,7 @@ var Main = Class.create({
 			
 			//document.createElement('ltxcmd-textbf');
 			//document.createElement('ltx-value');
-			this.changed_preview();
+			inst.changed_preview();
 			
 		});
 		
@@ -83,7 +97,7 @@ var Main = Class.create({
 			
 			anchor.parentElement.appendChild(range);
 			console.log(range);
-			this.changed_preview();
+			inst.changed_preview();
 		});
 		
 		$j("#addrow").click(function() {
@@ -118,7 +132,7 @@ var Main = Class.create({
 			//else {
 			//	table.appendChild(row);
 			//}
-			this.changed_preview();
+			inst.changed_preview();
 		});
 		
 		$j("#addcolumn").click(function() {
@@ -165,7 +179,7 @@ var Main = Class.create({
 				
 				row.insertBefore(newcol, column);
 			}
-			this.changed_preview();
+			inst.changed_preview();
 		});
 		
 		$j('#toggleborder').click(function(){
@@ -188,12 +202,66 @@ var Main = Class.create({
 			else
 				current.setAttribute('hline', 'true');
 
-			this.changed_preview();
+			inst.changed_preview();
 		});
 		
+		$j('#addtable').click(function(){
+			var sel = window.getSelection();
+			var anchor = sel.anchorNode;
+			if (anchor.nodeType == 3) {
+				var start = anchor.nodeValue.substring(0, sel.anchorOffset); 
+				var end = anchor.nodeValue.substring(sel.anchorOffset);
+				
+				anchor.nodeValue = start;
+				var endNode = document.createTextNode(end);
+				anchor.parentNode.insertBefore(endNode, anchor.nextSibling);
+			}
+			
+			var table = document.createElement("ltxcmd-tabular");
+			var row = document.createElement("ltx-tab-row");
+			row.setAttribute("hline", true);
+			var column = document.createElement("ltx-tab-col");
+			column.innerHTML = "a";
+			anchor.parentNode.insertBefore(table, anchor.nextSibling);
+			table.insertBefore(row, null);
+			row.insertBefore(column, null);
+			
+			inst.changed_preview();
+		});
+
+		this.retrieve();
+		
+	},
+	retrieve: function() {
+		var inst = this;
+		var data = {
+			userToken: getUrlParameter('userToken')
+		};
+
+		$j.post("retrieve.php", data, function(response) {
+			inst.editor.setValue(response);
+			inst.changed_code();
+		}).always(function() {
+			setTimeout(inst.tick.bind(inst), 1500);
+		});
+
 	},
 	tick: function() {
-		//unused for now
+		var inst = this;
+		var current = this.editor.getValue();
+		if (this.last != current) {
+			var data = {
+				content: current,
+				userToken: getUrlParameter('userToken')
+			};
+			$j.post("submit.php", data).always(function() {
+				setTimeout(inst.tick.bind(inst), 1500);
+			});
+		}
+		else {
+			setTimeout(inst.tick.bind(inst), 1500);
+		}
+		this.last = current;
 	},
 	
 	//events

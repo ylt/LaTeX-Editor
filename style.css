@@ -23,6 +23,13 @@ ltxcmd-begin[begintype="document"] {
 	padding: 5em;
 }
 
+@media (max-width: 1366px) {
+	ltxcmd-begin[begintype="document"] {
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+}
+
 ltxcmd-begin[begintype="document"] > ltx-content > * {
 	display: block;
 }
@@ -32,7 +39,7 @@ ltxcmd-begin > ltx-value {
 }
 
 
-ltxcmd-document ltx-value > * { /* latexcmd-document is tmp hack, remove*/
+ltxcmd-document > ltx-value > * { /* latexcmd-document is tmp hack, remove*/
 	display: none;
 }
 
@@ -48,6 +55,7 @@ ltxcmd-document ltx-value > * { /* latexcmd-document is tmp hack, remove*/
 	font-size: 12px;
 	background: #CCC;
 }
+
 
 #documenteditor {
 	padding-top: 50px;
@@ -112,7 +120,7 @@ ltxcmd-textbf {
 	font-weight: bold;
 }
 
-ltxcmd-begin[begintype="enumerate"] ltx-content {
+ltxcmd-begin[begintype="enumerate"] > ltx-content {
 	display: block;
 	list-style-type: decimal;
 	margin-left: 1em;
@@ -123,12 +131,12 @@ ltxcmd-begin[begintype="enumerate"] ltx-content {
 }
 
 
-ltxcmd-begin[begintype="enumerate"] > ltx-content ltxcmd-item {
+ltxcmd-begin[begintype="enumerate"] > ltx-content > ltxcmd-item {
 	display: list-item;
 	text-align: -webkit-match-parent;
 }
 
-ltxcmd-begin[begintype="itemize"] ltx-content {
+ltxcmd-begin[begintype="itemize"] > ltx-content {
 	display: block;
 	list-style-type: decimal;
 	margin-left: 1em;
@@ -139,7 +147,7 @@ ltxcmd-begin[begintype="itemize"] ltx-content {
 }
 
 
-ltxcmd-begin[begintype="itemize"] > ltx-content ltxcmd-item {
+ltxcmd-begin[begintype="itemize"] > ltx-content > ltxcmd-item {
 	display: list-item;
 	text-align: -webkit-match-parent;
 }
@@ -154,28 +162,29 @@ ltxcmd-begin[begintype="itemize"] > ltx-content ltxcmd-item {
 
 ltxcmd-tabular {
 	display: table;
-	border-collapse: separate;
-	border-spacing: 2px;
-	border-color: gray;
+	border-collapse: collapse;
+	/*border-spacing: 1px;
+	border-color: grey;*/
 }
 
 ltxcmd-tabular > ltx-tab-row {
 	display: table-row;
-	vertical-align: inherit;
-	border-color: inherit;
-	border-top: 2px solid black;
 }
 
 ltxcmd-tabular ltx-tab-row[hline="true"] > ltx-tab-col {
 	border-top: 1px solid black;
 }
 
-ltxcmd-tabular ltx-tab-row ltx-tab-col[vline="true"] {
+ltxcmd-tabular > ltx-tab-row > ltx-tab-col {
+	display: table-cell;
+	vertical-align: inherit;
+	border:1px solid #BBB;
+}
+
+
+ltxcmd-tabular > ltx-tab-row ltx-tab-col[vline="true"] {
 	border-left: 1px solid black;
 }
 
 
-ltxcmd-tabular > ltx-tab-row > ltx-tab-col {
-	display: table-cell;
-	vertical-align: inherit;
 }
